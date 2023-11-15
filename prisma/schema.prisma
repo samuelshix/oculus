@@ -1,0 +1,30 @@
+// This will create a new table for each new coin added to the Coin table
+// The table name will be the name of the coin in lowercase
+// The fields will be price and date
+// The primary key will be a composite key of coin name and date
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Coin {
+  id             Int     @id @default(autoincrement())
+  coinIdentifier String  @unique
+  name           String  @unique
+  mintAddress    String  @unique
+  prices         Price[]
+}
+
+model Price {
+  id       Int      @id @default(autoincrement())
+  coinName String
+  coin     Coin     @relation(fields: [coinName], references: [name])
+  price    Float
+  date     DateTime
+
+  @@unique([coinName, date])
+}
