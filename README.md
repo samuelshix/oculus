@@ -1,3 +1,6 @@
+# Oculus
+This is a Solana based project which aims to provide the value portfolio value over time using a Solana wallet. It aims to also display cost basis over time to make tracking total gains much easier.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
