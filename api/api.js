@@ -1,13 +1,14 @@
 import express from 'express';
 import * as scripts from './priceHistoryScript.js';
 import cors from 'cors';
+import { getTokenTransfer } from './getTokenTransfer.js';
 
 const app = express()
 const port = 3001
 
 app.use(cors())
 
-const apiKey = "6674cc09-55bd-4ac9-a44d-bc712dbc3f6f";
+const apiKey = process.env.HELIUS_API_KEY;
 const SPL_TOKEN_PROGRAM_ID = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
 
 const getAssetsByOwner = async (walletAddress) => {
@@ -71,9 +72,10 @@ app.get('/api/priceHistory', async (req, res) => {
 })
 app.get('/api/tokenAddressHistory', async (req, res) => {
     const tokenAddress = req.query.tokenAddress;
+    var parsedTokenTransfers = await getTokenTransfer(tokenAddress);
+    parsedTokenTransfers = parsedTokenTransfers.filter(transfer => transfer.amount > 0)
 
     res.send(parsedTokenTransfers);
-
     // console.log(signatures)
     // const url = `https://api.helius.xyz/v0/transactions?api-key=${apiKey}`
     // const response = await fetch(url, {

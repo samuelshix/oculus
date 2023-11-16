@@ -14,3 +14,31 @@ a {
 * {
   box-sizing: border-box;
 }
+
+:root {
+  --primary-color: #3a5a4000;
+}
+
+.wallet-adapter-button-trigger {
+  background-color: var(--primary-color) !important;
+}
+
+button {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+  transition: .3s;
+  border: .5px solid rgba(133, 255, 160, 0.459) !important;
+}
+
+button:hover {
+  box-shadow: 0px 0px 10px 2px rgba(133, 255, 160, 0.459);
+}
+
+p {
+  color: #DAD7CD !important;
+}
+
+/* 
+.glowEffect {
+  box-shadow: 0px 0px 10px 3px rgba(0, 255, 255, 0.404);
+} */

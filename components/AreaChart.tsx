@@ -3,47 +3,118 @@ import { Line } from 'react-chartjs-2';
 export interface CardProps {
     data: any[];
 }
-import { Chart, CategoryScale, LinearScale, PointElement, LineElement, TimeScale } from 'chart.js'
-Chart.register(CategoryScale, LinearScale, PointElement, LineElement, TimeScale)
+import { Chart, CategoryScale, LinearScale, PointElement, LineElement, TimeScale, ScriptableContext, Filler, Tooltip } from 'chart.js'
+import { Box } from "@chakra-ui/react";
+Chart.register(CategoryScale, LinearScale, PointElement, LineElement, TimeScale, Filler, Tooltip)
 
+const mockData = [
+    {
+        "date": "2023-11-08T00:00:00.000Z",
+        "price": 54.20703091890225,
+        "balance": 16.017501424,
+        "value": 868.2611949343287
+    },
+    {
+        "date": "2023-11-09T00:00:00.000Z",
+        "price": 56.41862098888671,
+        "balance": 16.017501424,
+        "value": 903.685342029609
+    },
+    {
+        "date": "2023-11-10T00:00:00.000Z",
+        "price": 70.92329990446574,
+        "balance": 16.017501424,
+        "value": 1136.014057214559
+    },
+    {
+        "date": "2023-11-11T00:00:00.000Z",
+        "price": 70.59407354179874,
+        "balance": 16.017501424,
+        "value": 1130.7406734817218
+    },
+    {
+        "date": "2023-11-12T00:00:00.000Z",
+        "price": 70.07199709925627,
+        "balance": 16.017501424,
+        "value": 1122.378313319861
+    },
+    {
+        "date": "2023-11-13T00:00:00.000Z",
+        "price": 65.22348358198929,
+        "balance": 16.017501424,
+        "value": 1044.717241152754
+    },
+    {
+        "date": "2023-11-14T00:00:00.000Z",
+        "price": 71.38941772187049,
+        "balance": 16.017501424,
+        "value": 1143.4801000185912
+    }
+]
 export const LineChart: FC<CardProps> = ({ data }) => {
     console.log(data)
     const chartData = {
-        labels: data.map((d) => d.date),
+        labels: mockData.map((d) => new Date(d.date).toLocaleDateString()),
         datasets: [{
-            data: data.map((d) => d.value),
-            fill: true,
-            backgroundColor: 'rgba(75,192,192,0.2)',
-            borderColor: 'rgba(75,192,192,1)',
+            data: mockData.map((d) => d.value),
+            fill: 'origin',
+            borderCapStyle: 'round',
+            cubicInterpolationMode: 'monotone',
+            backgroundColor: (context: ScriptableContext<"line">) => {
+                const ctx = context.chart.ctx;
+                const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+                gradient.addColorStop(0, "rgba(133, 255, 160, 0.459)");
+                gradient.addColorStop(1, "rgba(133, 255, 160, 0)");
+                return gradient;
+            },
+            borderColor: 'rgba(133, 255, 160, 1)',
             borderWidth: 2,
             pointRadius: 0,
             pointHitRadius: 10,
-        }]
+
+        }],
+
     }
 
     return (
-        <Line
-            data={chartData}
-        // options={{
-        //     scales: {
-        //         x: {
-        //             type: 'time',
-        //             time: {
-        //                 unit: 'day',
-        //                 displayFormats: {
-        //                     day: 'MMM D'
-        //                 }
-        //             },
-        //             ticks: {
-        //                 source: 'labels'
-        //             }
-        //         },
-        //         y: {
-        //             ticks: {
-        //             }
-        //         }
-        //     }
-        // }}
-        />
+        <Box className="glowEffect" marginY={25} marginX={-500} border={"1px"} p={16} borderColor="rgba(88, 129, 87, 0.53)" borderRadius={20}>
+            <Line
+                data={chartData}
+                width={800}
+                height={400}
+                options={
+                    {
+                        interaction: {
+                            mode: 'index',
+                            intersect: false
+                        },
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                ticks: { color: 'white' }
+                            },
+                            y: {
+                                type: 'linear',
+                                ticks: {
+                                    color: 'white',
+                                    callback: function (value, index, values) {
+                                        return '$' + value;
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                displayColors: false,
+                                callbacks: {
+                                    label: (yDatapoint) => { return "$" + yDatapoint.formattedValue },
+                                },
+                                enabled: true,
+                            }
+                        },
+                    }}
+            />
+        </Box>
     )
 }

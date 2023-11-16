@@ -3,10 +3,10 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient();
 const YESTERDAY = Math.round(new Date(Date.now() - 86400000).getTime() / 1000);
 
-export async function checkIfTokenExists(tokenName) {
+export async function checkIfTokenExists(tokenIdentifier) {
   const token = await prisma.coin.findUnique({
     where: {
-      name: tokenName
+      coinIdentifier: tokenIdentifier
     }
   })
   return token
@@ -16,7 +16,6 @@ async function getNewTokenHistories(tokenAddress) {
   const options = { method: 'GET', headers: { 'X-API-KEY': '5db8fc01121a42ad9d3977f07736961c' } };
   const prices = await fetch(`https://public-api.birdeye.so/public/history_price?address=${tokenAddress}&address_type=token&time_from=${0}&time_to=${YESTERDAY}`, options)
     .then(response => response.json())
-  console.log("prices", prices)
   return prices.data.items
 }
 
@@ -50,7 +49,6 @@ export async function createToken(coinIdentifier, newToken, mintAddress, coinNam
       }
     })
   }
-  console.log(prices)
   await prisma.coin.create({
     data: {
       name: coinName,
@@ -61,6 +59,7 @@ export async function createToken(coinIdentifier, newToken, mintAddress, coinNam
       mintAddress: mintAddress
     }
   })
+  return coinName
 }
 
 export async function getTokenPriceHistory(tokenName) {

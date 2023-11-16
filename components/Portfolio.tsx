@@ -4,7 +4,7 @@ import { Connection, PublicKey, PublicKeyInitData } from '@solana/web3.js';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import styles from '../styles/Home.module.css'
 import { FormEvent } from 'react';
-import { Button, FormControl, Text, Image, Box, Flex } from '@chakra-ui/react';
+import { Button, FormControl, Text, Image, Box, Flex, Center } from '@chakra-ui/react';
 import { TokenInfo } from '../models/TokenInfo';
 import { fetchPortfolioHistoricalValue } from '../hooks/fetchPortfolioHistoricalValue';
 import { set } from 'date-fns';
@@ -91,15 +91,20 @@ export default function Portfolio() {
     // ]
     return (
         <div>
+            {/* {tokenInfos.length !== 0 && */}
+            <><Text fontSize="4xl" color='' mr="2" mt="20" fontWeight="bold">Total Value: ${totalValue}</Text>
+                <LineChart data={portfolioHistoricValue} /></>
+            {/* } */}
+
+            <Center mt="20">
+                <div>
+                    <Button transition={"all .3s ease"} type="submit" onClick={handleSubmit}>Fetch Token Infos</Button>
+                </div>
+            </Center>
             {tokenInfos.length !== 0 &&
-                <><Text fontSize="4xl" color='gray.50' mr="2" fontWeight="bold">Total Value: ${totalValue}</Text>
-                    <LineChart data={portfolioHistoricValue} /></>
+                <Text mt="3" fontSize="3xl" fontWeight={900} color='gray.50' mr="2">Balances</Text>
             }
-            <Flex alignItems="center" mt="5">
-                <Text fontSize="md" fontSize="3xl" color='gray.50' mr="2">Balances</Text>
-                <Button _hover={{ backgroundColor: "cyan.400" }} bgColor={"cyan.800"} color={"cyan.50"} transition={"all .3s ease"} type="submit" onClick={handleSubmit}>Fetch Token Infos</Button>
-            </Flex>
-            <Box mt="5" bg='#1b2428' borderRadius={10}>
+            <Box bg='#344E41' borderRadius={10}>
                 {tokenInfos.map((tokenInfo, index) => (
                     <Box p="5" w="lg" key={index}>
                         <Flex>

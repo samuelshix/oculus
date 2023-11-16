@@ -12,7 +12,7 @@ const Home: NextPage = () => {
   return (
     <div className={styles.App}>
       <Head>
-        <title>Movie Reviews</title>
+        <title>Oculus</title>
       </Head>
       <AppBar />
       <Center>

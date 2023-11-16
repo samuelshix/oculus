@@ -10,6 +10,7 @@ export const fetchPortfolioHistoricalValue = async (tokenInfos: TokenInfo[]) => 
 
         var tokenAddressHistory = await fetch(`http://localhost:3001/api/tokenAddressHistory?tokenAddress=${tokenInfo.tokenAddress}`).then((res) => res.json());
         if (tokenAddressHistory.error) continue;
+        console.log(tokenInfo)
         tokenAddressHistory = tokenAddressHistory.map((price: { "amount": number, "date": Date }) => {
             price.date = new Date(price.date);
             console.log(price.date)
@@ -19,7 +20,7 @@ export const fetchPortfolioHistoricalValue = async (tokenInfos: TokenInfo[]) => 
         tokenAddressHistory = tokenAddressHistory.sort((a: any, b: any) => {
             return b.date.getTime() - a.date.getTime();
         });
-        console.log(tokenInfo.name)
+        console.log(tokenAddressHistory)
 
         const firstDate = tokenAddressHistory[0].date;
         const tokenIdentifier = tokenInfo.coinGeckoId ? tokenInfo.coinGeckoId.coingeckoId : tokenInfo.symbol;
@@ -31,7 +32,6 @@ export const fetchPortfolioHistoricalValue = async (tokenInfos: TokenInfo[]) => 
             price.date = new Date(price.date);
             return price
         })
-        console.log(prices)
         prices = prices.filter(price => isAfter(price.date, firstDate) || isSameDay(price.date, firstDate));
 
         console.log(tokenAddressHistory, prices)
@@ -56,7 +56,11 @@ export const fetchPortfolioHistoricalValue = async (tokenInfos: TokenInfo[]) => 
         //         price: price.price
         //     }
         // })
-        allTokenHistories.push(accountValueHistory)
+        allTokenHistories.push(
+            {
+                "mint": tokenInfo.tokenAddress,
+                "accountValueHistory": accountValueHistory
+            })
     }
 
     return allTokenHistories
