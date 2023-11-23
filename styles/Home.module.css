@@ -4,18 +4,19 @@
   flex-direction: column;
 
   text-align: left;
-  background-color: #17221c;
+  background-color: #23332a;
+  color: rgb(53, 80, 65)
 }
 
 .AppHeader {
   height: 90px;
   display: flex;
-  background-color: #3A5A40;
+  background-color: #17221c;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  font-size: 40px;
-  color: #DAD7CD;
+  font-size: 25px;
+  color: white;
   font-weight: 900;
   padding-left: 20px;
   padding-right: 20px;
@@ -29,6 +30,6 @@
   align-items: center;
   justify-content: flex-start;
   font-size: calc(10px + 2vmin);
-  color: #DAD7CD;
+  color: white;
   padding-top: 50px;
 }

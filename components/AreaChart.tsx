@@ -51,23 +51,24 @@ const mockData = [
         "value": 1143.4801000185912
     }
 ]
-export const LineChart: FC<CardProps> = ({ data }) => {
-    console.log(data)
+export const LineChart: FC<CardProps> = ({ data = [] }) => {
+    // const data = data1[6]?.accountValueHistory ?? mockData
+    // console.log(data1)
     const chartData = {
-        labels: mockData.map((d) => new Date(d.date).toLocaleDateString()),
+        labels: data.map((d: { date: string }) => new Date(d.date).toLocaleDateString()),
         datasets: [{
-            data: mockData.map((d) => d.value),
+            data: data.map((d: { value: number }) => d.value),
             fill: 'origin',
-            borderCapStyle: 'round',
-            cubicInterpolationMode: 'monotone',
+            borderCapStyle: 'round' as const,
+            cubicInterpolationMode: 'monotone' as const,
             backgroundColor: (context: ScriptableContext<"line">) => {
                 const ctx = context.chart.ctx;
                 const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-                gradient.addColorStop(0, "rgba(133, 255, 160, 0.459)");
-                gradient.addColorStop(1, "rgba(133, 255, 160, 0)");
+                gradient.addColorStop(0, "rgba(255, 237, 133, 0.3)");
+                gradient.addColorStop(1, "rgba(255, 237, 133, 0)");
                 return gradient;
             },
-            borderColor: 'rgba(133, 255, 160, 1)',
+            borderColor: 'rgba(255, 237, 133, 1)',
             borderWidth: 2,
             pointRadius: 0,
             pointHitRadius: 10,
@@ -77,7 +78,7 @@ export const LineChart: FC<CardProps> = ({ data }) => {
     }
 
     return (
-        <Box className="glowEffect" marginY={25} marginX={-500} border={"1px"} p={16} borderColor="rgba(88, 129, 87, 0.53)" borderRadius={20}>
+        <Box className="glowEffect" marginY={25} marginX={-500} boxShadow="xl" p={16} backgroundColor="rgb(53, 80, 65)" borderRadius={20}>
             <Line
                 data={chartData}
                 width={800}
