@@ -4,14 +4,14 @@
   flex-direction: column;
 
   text-align: left;
-  background-color: #23332a;
-  color: rgb(53, 80, 65)
+  background-color: rgb(26, 36, 26);
+  color: rgb(23, 36, 29)
 }
 
 .AppHeader {
   height: 90px;
   display: flex;
-  background-color: #17221c;
+  background-color: #161f18;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;

@@ -122,8 +122,10 @@ export default function Portfolio() {
                 </div>
             </Center>
             <Box boxShadow="xl">
-                <Box ref={exportRef} marginY={25} marginX={-500} p={16} backgroundColor="rgb(53, 80, 65)">
-                    <LineChart data1={portfolioHistoricValue} />
+                <Box marginY={25} marginX={-500} borderRadius={25} backgroundColor="rgb(15, 25, 15)" py={5}>
+                    <Box ref={exportRef} backgroundColor="rgb(15, 25, 15)" p={16} py={10}>
+                        <LineChart data1={portfolioHistoricValue} />
+                    </Box>
                 </Box>
             </Box>
             <div style={{ overflow: "auto" }}>
@@ -175,8 +177,9 @@ export default function Portfolio() {
                     </Box>
                 </>
             }
-            <CreateNFT htmlElement={exportRef.current} />
-
+            <Center>
+                <CreateNFT htmlElement={exportRef.current} />
+            </Center>
         </div >
     );
 }
