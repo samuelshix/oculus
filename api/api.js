@@ -15,7 +15,6 @@ const getAssetsByOwner = async (walletAddress) => {
     const url = `https://api.helius.xyz/v0/addresses/${walletAddress}/balances?api-key=${apiKey}`;
     const response = await fetch(url);
     const data = await response.json();
-    console.log("balances: ", data);
     return data;
 }
 const getAllTokens = async () => {
@@ -49,7 +48,6 @@ app.get('/api/priceHistory', async (req, res) => {
     const token = await scripts.checkIfTokenExists(req.query.tokenIdentifier)
     const coinName = req.query.name;
     // if token exists in the database, return the price history, otherwise create a token object in the database
-    console.log(token)
     if (token) {
         const prices = await scripts.getTokenPriceHistory(coinName);
         console.log('Token found: ', token)
@@ -68,6 +66,7 @@ app.get('/api/priceHistory', async (req, res) => {
                 })
             })
     }
+    console.log(coinName, prices)
 
 })
 app.get('/api/tokenAddressHistory', async (req, res) => {
@@ -90,6 +89,9 @@ app.get('/api/tokenAddressHistory', async (req, res) => {
 
     // const data = await response.json();
     // console.log("tokenAddressHistory: ", data);
+})
+app.get('/api/createNFT', async (req, res) => {
+
 })
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)

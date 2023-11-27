@@ -1,7 +1,34 @@
 /** @type {import('next').NextConfig} */
+var webpack = require('webpack');
+
 const nextConfig = {
+  // webpack: (config, options) => {
+  //   config.module.rules.push({
+  //     test: /\.m?js/,
+  //     resolve: {
+  //       fullySpecified: false,
+  //     },
+  //   })
+  //   config.ignoreWarnings = [/Failed to parse source map/]
+  //   config.plugins.push(
+  //     new webpack.ProvidePlugin({ Buffer: ["buffer", "Buffer"] })
+  //   )
+  //   config.resolve.fallback = {
+  //     crypto: require.resolve("crypto-browserify"),
+  //     stream: require.resolve("stream-browserify"),
+  //     util: require.resolve("util"),
+  //     assert: require.resolve("assert"),
+  //     fs: false,
+  //     process: false,
+  //     path: false,
+  //     zlib: false,
+  //     // http: false,
+  //     // https: false,
+  //     // querystring: false,
+  //   };
+  //   return config
+  // },
   reactStrictMode: false,
-  transpilePackages: ["@nivo"],
   experimental: { esmExternals: 'loose' },
   async rewrites() {
     return [
@@ -11,21 +38,6 @@ const nextConfig = {
       }
     ]
   },
-  // async headers() {
-  //   return [
-  //     {
-  //       // matching all API routes
-  //       source: "/api/:path*",
-  //       headers: [
-  //         { key: "Access-Control-Allow-Credentials", value: "true" },
-  //         { key: "Access-Control-Allow-Origin", value: "*" }, // replace this your actual origin
-  //         { key: "Access-Control-Allow-Methods", value: "GET,DELETE,PATCH,POST,PUT" },
-  //         { key: "Access-Control-Allow-Headers", value: "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version" },
-  //       ]
-  //     }
-  //   ]
-  // },
-  // reactStrictMode: true,
 }
 
 module.exports = nextConfig

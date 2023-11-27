@@ -1,14 +1,16 @@
 
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 // import { Connection, PublicKey, PublicKeyInitData } from '@solana/web3.js';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { FormEvent } from 'react';
 import { Button, FormControl, Text, Image, Box, Flex, Center } from '@chakra-ui/react';
 import { TokenInfo } from '../models/TokenInfo';
-import { fetchPortfolioHistoricalValue } from '../hooks/fetchPortfolioHistoricalValue';
+import { fetchPortfolioHistoricalValue } from '../utils/fetchPortfolioHistoricalValue';
 import { LineChart } from './AreaChart';
 import LoadingAnimation from './LoadingAnimation';
 import { isSameDay } from 'date-fns';
+import exportAsImage from '../utils/captureImage';
+import CreateNFT from './CreateNFT';
 
 export default function Portfolio() {
     const [tokenInfos, setTokenInfos] = useState<TokenInfo[]>([]);
@@ -17,7 +19,7 @@ export default function Portfolio() {
     const [totalValue, setTotalValue] = useState<number>(0);
     const [portfolioHistoricValue, setPortfolioHistoricValue] = useState<[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-
+    const exportRef = useRef<HTMLDivElement>()
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (buttonClicked) return;
@@ -116,13 +118,20 @@ export default function Portfolio() {
 
             <Center mt="20">
                 <div>
-                    <Button transition={"all .3s ease"} type="submit" onClick={handleSubmit}>Fetch Token Infos</Button>
+                    <Button type="submit" onClick={() => handleSubmit}>Fetch Token Infos</Button>
                 </div>
             </Center>
+            <Box boxShadow="xl">
+                <Box ref={exportRef} marginY={25} marginX={-500} p={16} backgroundColor="rgb(53, 80, 65)">
+                    <LineChart data1={portfolioHistoricValue} />
+                </Box>
+            </Box>
+            <div style={{ overflow: "auto" }}>
+            </div>
             {tokenInfos.length !== 0 &&
                 <>
                     <Text fontSize="4xl" color='' ml="16" mt="20" fontWeight="bold">Total Value: ${totalValue}</Text>
-                    <LineChart data={portfolioHistoricValue} />
+                    {/* <LineChart data={portfolioHistoricValue} /> */}
 
                     <Text mt="3" fontSize="3xl" fontWeight={900} color='gray.50' mr="2">Balances</Text>
 
@@ -166,6 +175,8 @@ export default function Portfolio() {
                     </Box>
                 </>
             }
+            <CreateNFT htmlElement={exportRef.current} />
+
         </div >
     );
 }

@@ -3,14 +3,13 @@ import { isAfter, isBefore, isSameDay } from 'date-fns';
 
 
 export const fetchPortfolioHistoricalValue = async (tokenInfos: TokenInfo[]) => {
-    console.log(tokenInfos)
     const allTokenHistories = []
     for (let i = 0; i < tokenInfos.length; i++) {
         const tokenInfo = tokenInfos[i];
 
         var tokenAddressHistory = await fetch(`http://localhost:3001/api/tokenAddressHistory?tokenAddress=${tokenInfo.tokenAddress}`).then((res) => res.json());
         if (tokenAddressHistory.error) continue;
-        console.log(tokenInfo)
+        console.log(tokenInfo.name, tokenAddressHistory)
         tokenAddressHistory = tokenAddressHistory.map((price: { "amount": number, "date": Date }) => {
             price.date = new Date(price.date);
             console.log(price.date)
@@ -20,7 +19,7 @@ export const fetchPortfolioHistoricalValue = async (tokenInfos: TokenInfo[]) => 
         tokenAddressHistory = tokenAddressHistory.sort((a: any, b: any) => {
             return b.date.getTime() - a.date.getTime();
         });
-        console.log(tokenAddressHistory)
+        console.log(tokenInfo.name, tokenAddressHistory)
 
         const firstDate = tokenAddressHistory[0].date;
         const tokenIdentifier = tokenInfo.coinGeckoId ? tokenInfo.coinGeckoId.coingeckoId : tokenInfo.symbol;
@@ -32,9 +31,10 @@ export const fetchPortfolioHistoricalValue = async (tokenInfos: TokenInfo[]) => 
             price.date = new Date(price.date);
             return price
         })
+        console.log(tokenInfo.name, prices)
         prices = prices.filter(price => isAfter(price.date, firstDate) || isSameDay(price.date, firstDate));
 
-        console.log(tokenAddressHistory, prices)
+        console.log(tokenInfo.name, prices)
         var balance = 0
         const accountValueHistory = prices.map((item: any, index: number) => {
             const tokenTransfer = tokenAddressHistory.find((transfer: any) => isSameDay(transfer.date, item.date))

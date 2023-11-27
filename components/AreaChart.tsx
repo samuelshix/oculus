@@ -1,11 +1,12 @@
 import { FC } from "react";
 import { Line } from 'react-chartjs-2';
-export interface CardProps {
-    data: any[];
-}
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement, TimeScale, ScriptableContext, Filler, Tooltip } from 'chart.js'
 import { Box } from "@chakra-ui/react";
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, TimeScale, Filler, Tooltip)
+
+export interface CardProps {
+    data1: any[];
+}
 
 const mockData = [
     {
@@ -51,9 +52,10 @@ const mockData = [
         "value": 1143.4801000185912
     }
 ]
-export const LineChart: FC<CardProps> = ({ data = [] }) => {
+export const LineChart: FC<CardProps> = ({ data1 = [] }) => {
     // const data = data1[6]?.accountValueHistory ?? mockData
     // console.log(data1)
+    const data = data1.length > 0 ? data1 : mockData
     const chartData = {
         labels: data.map((d: { date: string }) => new Date(d.date).toLocaleDateString()),
         datasets: [{
@@ -78,44 +80,42 @@ export const LineChart: FC<CardProps> = ({ data = [] }) => {
     }
 
     return (
-        <Box className="glowEffect" marginY={25} marginX={-500} boxShadow="xl" p={16} backgroundColor="rgb(53, 80, 65)" borderRadius={20}>
-            <Line
-                data={chartData}
-                width={800}
-                height={400}
-                options={
-                    {
-                        interaction: {
-                            mode: 'index',
-                            intersect: false
+        <Line
+            data={chartData}
+            width={800}
+            height={400}
+            options={
+                {
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            ticks: { color: 'white' }
                         },
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            x: {
-                                ticks: { color: 'white' }
-                            },
-                            y: {
-                                type: 'linear',
-                                ticks: {
-                                    color: 'white',
-                                    callback: function (value, index, values) {
-                                        return '$' + value;
-                                    }
+                        y: {
+                            type: 'linear',
+                            ticks: {
+                                color: 'white',
+                                callback: function (value, index, values) {
+                                    return '$' + value;
                                 }
                             }
-                        },
-                        plugins: {
-                            tooltip: {
-                                displayColors: false,
-                                callbacks: {
-                                    label: (yDatapoint) => { return "$" + yDatapoint.formattedValue },
-                                },
-                                enabled: true,
-                            }
-                        },
-                    }}
-            />
-        </Box>
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            displayColors: false,
+                            callbacks: {
+                                label: (yDatapoint) => { return "$" + yDatapoint.formattedValue },
+                            },
+                            enabled: true,
+                        }
+                    },
+                }}
+        />
     )
 }
