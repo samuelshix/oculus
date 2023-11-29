@@ -73,6 +73,15 @@ export const getTokenPriceHistory = async (tokenInfo: TokenInfo, tokenAddressHis
 
     return prices
 }
+
+export const addSolTokenInfo = (tokenInfos: TokenInfo[]) => {
+    // tokenInfos.push({
+    //     mintAddress: 'So11111111111111111111111111111111111111112',
+    //     name: 'Solana',
+    //     symbol: 'SOL',
+
+    // })
+}
 export const calculatePortfolioValue = (portfolioHistoricValue: Array<TokenHistoricValue>) => {
     const combinedHistoricValue: Array<DateValue> = [];
     // const lengths = portfolioHistoricValue.map(a=>a.length);
@@ -91,4 +100,26 @@ export const calculatePortfolioValue = (portfolioHistoricValue: Array<TokenHisto
         })
     })
     combinedHistoricValue.sort((a, b) => a.date.getTime() - b.date.getTime());
+}
+export const getPortfolioHistoricValue = async (tokenAddressValues: Array<TokenInfo>) => {
+    const portfolioHistoricValue = await fetchPortfolioHistoricalValue(tokenAddressValues)
+
+    const combinedHistoricValue: Array<{ date: Date, value: number }> = [];
+
+    portfolioHistoricValue.forEach((tokenHistory) => {
+        tokenHistory.accountValueHistory.forEach((element) => {
+            const existingValue = combinedHistoricValue.find((item) => isSameDay(item.date, element.date));
+            if (typeof existingValue !== undefined && existingValue?.value) {
+                existingValue.value += element.value;
+                console.log("found", element.date, element.value)
+            } else {
+                combinedHistoricValue.push({
+                    date: element.date,
+                    value: element.value
+                });
+            }
+        })
+    })
+    combinedHistoricValue.sort((a, b) => a.date.getTime() - b.date.getTime());
+    return combinedHistoricValue
 }

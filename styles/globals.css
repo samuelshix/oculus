@@ -13,7 +13,7 @@ a {
 
 * {
   box-sizing: border-box;
-  color: black !important;
+  color: black;
 }
 
 :root {
@@ -50,7 +50,7 @@ button:hover::before {
   transform: translate3d(5px, 5px, -1px) !important; /* (X, Y, Z) */
 }
 
-p.light {
+.light {
   color: var(--secondary-color) !important;
 }
 

@@ -1,6 +1,6 @@
 
 
-const NON_TRANSFER_IX_TYPES = ["UNKNOWN", "CREATE_ORDER", "CANCEL_ORDER"];
+const TRANSFER_TX_TYPES = ["WITHDRAW", "DEPOSIT", "SWAP", "TRANSFER"];
 const apiKey = process.env.HELIUS_API_KEY;
 
 const getSignaturesForAddress = async (tokenAddress) => {
@@ -51,14 +51,13 @@ const handleTokenTransfer = (signature, tokenAddress) => {
 export const getTokenTransfer = async (tokenAddress) => {
     var signatures = await getSignaturesForAddress(tokenAddress);
 
-    var signatures1 = signatures.filter(signature => (signature.tokenTransfers || signature.nativeTransfers) && !NON_TRANSFER_IX_TYPES.includes(signature.type));
+    var signatures = signatures.filter(signature => TRANSFER_TX_TYPES.includes(signature.type));
 
-    var filteredSignatures = signatures.filter(signature => !signatures1.includes(signature));
 
-    filteredSignatures.foreach(signature => {
-        console.log(signature.description, signature.)
+    signatures.forEach(signature => {
+        console.log(signature.description, signature.type)
     })
-    const parsedTokenTransfers = filteredSignatures.map(signature => {
+    const parsedTokenTransfers = signatures.map(signature => {
         // if (signature.nativeTransfers.length > 0) {
         //     console.log("found SOL transfer")
         //     return handleSOLTransfer(signature, tokenAddress)

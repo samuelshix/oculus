@@ -5,25 +5,28 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { FormEvent } from 'react';
 import { Button, FormControl, Text, Image, Box, Flex, Center } from '@chakra-ui/react';
 import { TokenInfo } from '../models/TokenInfo';
-import { fetchPortfolioHistoricalValue } from '../utils/fetchPortfolioHistoricalValue';
+import { fetchPortfolioHistoricalValue, getPortfolioHistoricValue } from '../utils/fetchPortfolioHistoricalValue';
 import { LineChart } from './AreaChart';
 import LoadingAnimation from './LoadingAnimation';
 import { isSameDay } from 'date-fns';
 import exportAsImage from '../utils/captureImage';
 import CreateNFT from './CreateNFT';
+import TokenInfoCard from './TokenInfoCard';
+import { get } from 'http';
 
 export default function Portfolio() {
     const [tokenInfos, setTokenInfos] = useState<TokenInfo[]>([]);
     const { publicKey, sendTransaction } = useWallet();
     const [buttonClicked, setButtonClicked] = useState<boolean>(false);
     const [totalValue, setTotalValue] = useState<number>(0);
-    const [portfolioHistoricValue, setPortfolioHistoricValue] = useState<[]>([]);
+    const [portfolioHistoricValue, setPortfolioHistoricValue] = useState<{ date: Date, value: number }[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [loadingText, setLoadingText] = useState<string>("Retrieving token balances...");
     const exportRef = useRef<HTMLDivElement>()
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (buttonClicked) return;
+        if (buttonClicked && publicKey) return;
         setIsLoading(true);
         fetchTokenInfos().then(() => setIsLoading(false));
         setButtonClicked(true);
@@ -64,11 +67,12 @@ export default function Portfolio() {
             })
         )
         balanceInfos = balanceInfos.filter((info) => info !== null && info.amount > 0 && info.logoURI)
-
+        setLoadingText("Retrieving token prices");
         var tokenPrices = await fetch(`http://localhost:3001/api/prices?mintAddress=${mintAddresses.toString()}`).then((res) => res.json());
+        setLoadingText("Calculating token account USD value...");
 
         let newTotalValue = totalValue;
-        var tokenInfosWithPrice: TokenInfo[] = balanceInfos.map((tokenInfo) => {
+        var tokenAddressValues: TokenInfo[] = balanceInfos.map((tokenInfo) => {
             const price = tokenPrices.data[tokenInfo.mintAddress]?.price;
             const value = parseFloat((price * tokenInfo.amount).toFixed(3));
             newTotalValue += value;
@@ -78,51 +82,24 @@ export default function Portfolio() {
                 value: value
             }
         })
-        tokenInfosWithPrice = tokenInfosWithPrice.filter((info) => info.value > 0)
-        tokenInfosWithPrice = tokenInfosWithPrice.sort((a, b) => b.value - a.value);
-        var portfolioHistoricValue = await fetchPortfolioHistoricalValue(tokenInfosWithPrice)
+        tokenAddressValues = tokenAddressValues.filter((info) => info.value > 0)
+        tokenAddressValues = tokenAddressValues.sort((a, b) => b.value - a.value);
+        setTokenInfos(tokenAddressValues);
 
-        const combinedHistoricValue: Array<{ date: Date, value: number }> = [];
-        // const lengths = portfolioHistoricValue.map(a=>a.length);
-        // lengths.indexOf(Math.max(...lengths));
-        portfolioHistoricValue.forEach((tokenHistory) => {
-            tokenHistory.accountValueHistory.forEach((element) => {
-                const existingValue = combinedHistoricValue.find((item) => isSameDay(item.date, element.date));
-                if (typeof existingValue !== undefined && existingValue?.value) {
-                    existingValue.value += element.value;
-                    console.log("found", element.date, element.value)
-                } else {
-                    combinedHistoricValue.push({
-                        date: element.date,
-                        value: element.value
-                    });
-                }
-            })
-        })
-        combinedHistoricValue.sort((a, b) => a.date.getTime() - b.date.getTime());
-        // portfolioHistoricValue.reduce((acc: any, curr: any) => {
-        //     const valueMap = new Map(acc.map((item: any) => [item.date, item.value]));
-        //     curr.accountValueHistory.forEach((item: any) => {
-        //         const existingValue = valueMap.get(item.date) || 0;
-        //         valueMap.set(item.date, existingValue + item.value);
-        //     });
-        //     const newAcc = Array.from(valueMap, ([date, value]) => ({ date, value }));
-        //     return newAcc;
-        // }, []);
-        // var exampleAccount = portfolioHistoricValue[0]
+        setLoadingText("Getting account historical value...");
+        const combinedHistoricValue = await getPortfolioHistoricValue(tokenAddressValues);
+
         setTotalValue(newTotalValue);
-        setTokenInfos(tokenInfosWithPrice);
         setPortfolioHistoricValue(combinedHistoricValue);
         console.log(portfolioHistoricValue, combinedHistoricValue)
     }
 
     return (
         <div>
-            <LoadingAnimation loading={isLoading} />
-
             <Center mt="20">
                 <div>
                     <Button type="submit" onClick={handleSubmit}>Fetch Token Infos</Button>
+                    <LoadingAnimation loading={isLoading} text={loadingText} />
                 </div>
             </Center>
             <Box>
@@ -143,42 +120,9 @@ export default function Portfolio() {
                     {/* <LineChart data={portfolioHistoricValue} /> */}
 
                     <Text mt="3" fontSize="2xl" fontWeight={700} mr="2">Balances</Text>
-
-                    <Box bg='black' boxShadow="xl" p="3" borderRadius={20}>
+                    <Box bg="rgba(0,0,0,.1)" boxShadow="xl" p="3" borderRadius={20}>
                         {tokenInfos.map((tokenInfo, index) => (
-                            <Box py="5" px="4" mb="2" borderRadius={20} bg="rgba(255,255,255,.1)" shadow={"md"} key={index}>
-                                <Flex>
-                                    <Box flex={2} mr="5">
-                                        <Flex alignItems="flex-start">
-                                            <Box>
-                                                <Image src={tokenInfo.logoURI} alt={`${tokenInfo.symbol} logo`} boxSize="50px" mr="2" />
-                                            </Box>
-                                            <Box>
-                                                <Text
-                                                    className='light'
-                                                    fontSize="xl"
-                                                    fontWeight="bold">{tokenInfo.name}</Text>
-
-                                                <Text
-                                                    className='light'
-                                                    fontSize="md"
-                                                    fontWeight="md">{tokenInfo.amount} {tokenInfo.symbol}</Text>
-                                            </Box>
-                                        </Flex>
-                                    </Box>
-                                    <Box flex={1}>
-                                        <Text className='light'>${tokenInfo.value}</Text>
-                                    </Box>
-                                    <Box>
-                                        <Text
-                                            className='light'
-                                            fontSize="sm"
-                                            fontWeight="md">
-                                            {`${tokenInfo.tokenAddress.slice(0, 4)}...${tokenInfo.tokenAddress.slice(-4)}`}
-                                        </Text>
-                                    </Box>
-                                </Flex>
-                            </Box>
+                            <TokenInfoCard key={index} tokenInfo={tokenInfo} />
                         ))}
                     </Box>
                 </>
@@ -186,9 +130,3 @@ export default function Portfolio() {
         </div >
     );
 }
-
-{/* <Stat>
-  <StatLabel>Collected Fees</StatLabel>
-  <StatNumber>£0.00</StatNumber>
-  <StatHelpText>Feb 12 - Feb 28</StatHelpText>
-</Stat> */}
