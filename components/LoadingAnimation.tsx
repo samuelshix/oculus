@@ -9,8 +9,8 @@ const LoadingAnimation: FC<LoadingProps> = ({ loading = false }) => (
     <>
         {loading &&
             <>
-                <Text fontSize="lg" fontWeight="light" color="white" mb={'-4'}>Loading</Text>
-                <ReactLoading height={50} width={50} type={'cylon'} color={'white'} />
+                <Text fontSize="lg" fontWeight="light" color="black" mb={'-4'}>Loading</Text>
+                <ReactLoading height={50} width={50} type={'cylon'} color={'black'} />
             </>
         }
     </>

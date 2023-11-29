@@ -4,14 +4,14 @@
   flex-direction: column;
 
   text-align: left;
-  background-color: rgb(26, 36, 26);
+  background-color: rgb(245, 235, 220);
   color: rgb(23, 36, 29)
 }
 
 .AppHeader {
   height: 90px;
   display: flex;
-  background-color: #161f18;
+  /* background-color: rgba(0,0,0,.1); */
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -21,8 +21,31 @@
   padding-left: 20px;
   padding-right: 20px;
   flex-wrap: wrap;
+  margin: 1em 1em 0em 1em;
+  border-radius: 1em;
+  border: 3px solid rgba(0,0,0,1);
 }
+.AppTitle {
+  color: var(--secondary-color) !important;
+}
+.AppTitleWrapper {
+  background: black;
+  border-radius: .25em;
+  padding: 0 .5em .25em .5em;
+  transform-style: preserve-3d;
+}
+.AppTitleWrapper::before {
+  content: "";
+  position: absolute !important;
+  background: linear-gradient(90deg, rgba(60,169,255,1) 0%, rgba(60,169,255,1) 20%, rgba(255,27,27,1) 20%, rgba(255,33,29,1) 40%, rgba(255,111,57,1) 40%, rgba(255,114,58,1) 60%, rgba(255,175,80,1) 60%, rgba(255,180,82,1) 80%, rgba(45,162,6,1) 80%, rgba(27,161,0,1) 100%);
+  border-radius:0 0 .25em .25em !important;
+  transition: .3s !important;
+  inset: 15px 0 !important;
+  transform: translate3d(0px, 20px, 1px); 
+}
+.AppTitleWrapper:hover::before {
 
+}
 .AppBody {
   height: 100%;
   display: flex;

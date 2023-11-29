@@ -20,6 +20,7 @@ export default function Portfolio() {
     const [portfolioHistoricValue, setPortfolioHistoricValue] = useState<[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const exportRef = useRef<HTMLDivElement>()
+
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (buttonClicked) return;
@@ -62,7 +63,6 @@ export default function Portfolio() {
                 } else return null;
             })
         )
-        console.log(balanceInfos)
         balanceInfos = balanceInfos.filter((info) => info !== null && info.amount > 0 && info.logoURI)
 
         var tokenPrices = await fetch(`http://localhost:3001/api/prices?mintAddress=${mintAddresses.toString()}`).then((res) => res.json());
@@ -88,10 +88,14 @@ export default function Portfolio() {
         portfolioHistoricValue.forEach((tokenHistory) => {
             tokenHistory.accountValueHistory.forEach((element) => {
                 const existingValue = combinedHistoricValue.find((item) => isSameDay(item.date, element.date));
-                if (existingValue) {
+                if (typeof existingValue !== undefined && existingValue?.value) {
                     existingValue.value += element.value;
+                    console.log("found", element.date, element.value)
                 } else {
-                    combinedHistoricValue.push(element);
+                    combinedHistoricValue.push({
+                        date: element.date,
+                        value: element.value
+                    });
                 }
             })
         })
@@ -118,28 +122,31 @@ export default function Portfolio() {
 
             <Center mt="20">
                 <div>
-                    <Button type="submit" onClick={() => handleSubmit}>Fetch Token Infos</Button>
+                    <Button type="submit" onClick={handleSubmit}>Fetch Token Infos</Button>
                 </div>
             </Center>
-            <Box boxShadow="xl">
-                <Box marginY={25} marginX={-500} borderRadius={25} backgroundColor="rgb(15, 25, 15)" py={5}>
-                    <Box ref={exportRef} backgroundColor="rgb(15, 25, 15)" p={16} py={10}>
+            <Box>
+                <Box marginY={25} marginX={-500} borderRadius={25} backgroundColor="rgba(0,0,0,.8)" py={5} boxShadow="2xl">
+                    <Box ref={exportRef} p={16} py={10}>
                         <LineChart data1={portfolioHistoricValue} />
                     </Box>
                 </Box>
             </Box>
             <div style={{ overflow: "auto" }}>
             </div>
+            <Center>
+                <CreateNFT htmlElement={exportRef.current} />
+            </Center>
             {tokenInfos.length !== 0 &&
                 <>
-                    <Text fontSize="4xl" color='' ml="16" mt="20" fontWeight="bold">Total Value: ${totalValue}</Text>
+                    <Text fontSize="4xl" ml="16" mt="20" fontWeight="extrabold">Total Value: ${totalValue}</Text>
                     {/* <LineChart data={portfolioHistoricValue} /> */}
 
-                    <Text mt="3" fontSize="3xl" fontWeight={900} color='gray.50' mr="2">Balances</Text>
+                    <Text mt="3" fontSize="2xl" fontWeight={700} mr="2">Balances</Text>
 
-                    <Box bg='#344E41' boxShadow="xl" p="5" borderRadius={20}>
+                    <Box bg='black' boxShadow="xl" p="3" borderRadius={20}>
                         {tokenInfos.map((tokenInfo, index) => (
-                            <Box py="3" px="3" mb="5" borderRadius={20} shadow={"md"} key={index}>
+                            <Box py="5" px="4" mb="2" borderRadius={20} bg="rgba(255,255,255,.1)" shadow={"md"} key={index}>
                                 <Flex>
                                     <Box flex={2} mr="5">
                                         <Flex alignItems="flex-start">
@@ -148,24 +155,23 @@ export default function Portfolio() {
                                             </Box>
                                             <Box>
                                                 <Text
+                                                    className='light'
                                                     fontSize="xl"
                                                     fontWeight="bold">{tokenInfo.name}</Text>
 
                                                 <Text
-                                                    // _hover={{ color: "cyan.400" }}
-                                                    // transition={"all .3s ease"}
+                                                    className='light'
                                                     fontSize="md"
                                                     fontWeight="md">{tokenInfo.amount} {tokenInfo.symbol}</Text>
                                             </Box>
                                         </Flex>
                                     </Box>
                                     <Box flex={1}>
-                                        <Text color="cyan.50">${tokenInfo.value}</Text>
+                                        <Text className='light'>${tokenInfo.value}</Text>
                                     </Box>
-                                    <Box bg="#344E42">
+                                    <Box>
                                         <Text
-                                            // _hover={{ color: "cyan.400" }}
-                                            // transition={"all .3s ease"}
+                                            className='light'
                                             fontSize="sm"
                                             fontWeight="md">
                                             {`${tokenInfo.tokenAddress.slice(0, 4)}...${tokenInfo.tokenAddress.slice(-4)}`}
@@ -177,9 +183,6 @@ export default function Portfolio() {
                     </Box>
                 </>
             }
-            <Center>
-                <CreateNFT htmlElement={exportRef.current} />
-            </Center>
         </div >
     );
 }

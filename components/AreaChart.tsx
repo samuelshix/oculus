@@ -66,11 +66,11 @@ export const LineChart: FC<CardProps> = ({ data1 = [] }) => {
             backgroundColor: (context: ScriptableContext<"line">) => {
                 const ctx = context.chart.ctx;
                 const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-                gradient.addColorStop(0, "rgba(255, 237, 133, 0.3)");
-                gradient.addColorStop(1, "rgba(255, 237, 133, 0)");
+                gradient.addColorStop(0, "rgba(245, 235, 221,.3)");
+                gradient.addColorStop(1, "rgb(245, 235, 221, 0)");
                 return gradient;
             },
-            borderColor: 'rgba(255, 237, 133, 1)',
+            borderColor: 'rgb(245, 235, 221)',
             borderWidth: 2,
             pointRadius: 0,
             pointHitRadius: 10,

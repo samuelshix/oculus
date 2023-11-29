@@ -50,8 +50,15 @@ const handleTokenTransfer = (signature, tokenAddress) => {
 }
 export const getTokenTransfer = async (tokenAddress) => {
     var signatures = await getSignaturesForAddress(tokenAddress);
-    signatures = signatures.filter(signature => (signature.tokenTransfers || signature.nativeTransfers) && !NON_TRANSFER_IX_TYPES.includes(signature.type));
-    const parsedTokenTransfers = signatures.map(signature => {
+
+    var signatures1 = signatures.filter(signature => (signature.tokenTransfers || signature.nativeTransfers) && !NON_TRANSFER_IX_TYPES.includes(signature.type));
+
+    var filteredSignatures = signatures.filter(signature => !signatures1.includes(signature));
+
+    filteredSignatures.foreach(signature => {
+        console.log(signature.description, signature.)
+    })
+    const parsedTokenTransfers = filteredSignatures.map(signature => {
         // if (signature.nativeTransfers.length > 0) {
         //     console.log("found SOL transfer")
         //     return handleSOLTransfer(signature, tokenAddress)

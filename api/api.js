@@ -66,7 +66,6 @@ app.get('/api/priceHistory', async (req, res) => {
                 })
             })
     }
-    console.log(coinName, prices)
 
 })
 app.get('/api/tokenAddressHistory', async (req, res) => {

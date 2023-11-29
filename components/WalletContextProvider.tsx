@@ -9,7 +9,6 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
 	const endpoint = 'https://mainnet.helius-rpc.com/?api-key=6674cc09-55bd-4ac9-a44d-bc712dbc3f6f'
 
 	const wallets = [
-		new walletAdapterWallets.PhantomWalletAdapter(),
 		new walletAdapterWallets.SolflareWalletAdapter()
 	]
 

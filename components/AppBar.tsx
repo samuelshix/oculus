@@ -8,7 +8,10 @@ export const AppBar: FC = () => {
     return (
         <div className={styles.AppHeader}>
             <p> ◕ ‿ ◕</p>
-            <span style={{ translate: "30px" }}>Oculus</span>
+            <div className={styles.AppTitleWrapper}>
+                <span className={styles.AppTitle}>Snapshot</span>
+                <div className={styles.AppTitleBar}></div>
+            </div>
             <WalletMultiButton className={styles.walletButton} />
         </div>
     )
