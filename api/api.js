@@ -71,7 +71,7 @@ app.get('/api/priceHistory', async (req, res) => {
 app.get('/api/tokenAddressHistory', async (req, res) => {
     const tokenAddress = req.query.tokenAddress;
     var parsedTokenTransfers = await getTokenTransfer(tokenAddress);
-    parsedTokenTransfers = parsedTokenTransfers.filter(transfer => transfer.amount > 0)
+    parsedTokenTransfers = parsedTokenTransfers.filter(transfer => transfer.amount !== 0)
 
     res.send(parsedTokenTransfers);
     // console.log(signatures)

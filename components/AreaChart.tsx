@@ -1,8 +1,9 @@
 import { FC } from "react";
 import { Line } from 'react-chartjs-2';
-import { Chart, CategoryScale, LinearScale, PointElement, LineElement, TimeScale, ScriptableContext, Filler, Tooltip } from 'chart.js'
+import { Chart, CategoryScale, LinearScale, PointElement, LineElement, TimeScale, ScriptableContext, Filler, Tooltip, Title } from 'chart.js'
 import { Box } from "@chakra-ui/react";
-Chart.register(CategoryScale, LinearScale, PointElement, LineElement, TimeScale, Filler, Tooltip)
+import { fontWeight } from "html2canvas/dist/types/css/property-descriptors/font-weight";
+Chart.register(CategoryScale, LinearScale, PointElement, LineElement, TimeScale, Filler, Tooltip, Title)
 
 export interface CardProps {
     data1: any[];
@@ -61,6 +62,7 @@ export const LineChart: FC<CardProps> = ({ data1 = [] }) => {
         datasets: [{
             data: data.map((d: { value: number }) => d.value),
             fill: 'origin',
+            label: 'Portfolio Value',
             borderCapStyle: 'round' as const,
             cubicInterpolationMode: 'monotone' as const,
             backgroundColor: (context: ScriptableContext<"line">) => {
@@ -94,12 +96,12 @@ export const LineChart: FC<CardProps> = ({ data1 = [] }) => {
                     maintainAspectRatio: false,
                     scales: {
                         x: {
-                            ticks: { color: 'white' }
+                            ticks: { color: 'rgb(245, 235, 220)' }
                         },
                         y: {
                             type: 'linear',
                             ticks: {
-                                color: 'white',
+                                color: 'rgb(245, 235, 220)',
                                 callback: function (value, index, values) {
                                     return '$' + value;
                                 }
@@ -107,6 +109,15 @@ export const LineChart: FC<CardProps> = ({ data1 = [] }) => {
                         }
                     },
                     plugins: {
+                        title: {
+                            display: true,
+                            text: 'Portfolio Value',
+                            color: 'rgb(245, 235, 220)',
+                            font: {
+                                size: 20,
+                                weight: 'bold'
+                            }
+                        },
                         tooltip: {
                             displayColors: false,
                             callbacks: {

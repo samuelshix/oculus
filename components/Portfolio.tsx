@@ -3,7 +3,7 @@ import { FC, useEffect, useRef, useState } from 'react';
 // import { Connection, PublicKey, PublicKeyInitData } from '@solana/web3.js';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { FormEvent } from 'react';
-import { Button, FormControl, Text, Image, Box, Flex, Center } from '@chakra-ui/react';
+import { Button, FormControl, Text, Image, Box, Flex, Center, IconButton } from '@chakra-ui/react';
 import { TokenInfo } from '../models/TokenInfo';
 import { fetchPortfolioHistoricalValue, getPortfolioHistoricValue } from '../utils/fetchPortfolioHistoricalValue';
 import { LineChart } from './AreaChart';
@@ -26,18 +26,22 @@ export default function Portfolio() {
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (buttonClicked && publicKey) return;
-        setIsLoading(true);
-        fetchTokenInfos().then(() => setIsLoading(false));
-        setButtonClicked(true);
-    };
-
-    async function fetchTokenInfos() {
         if (!publicKey) {
             alert('Please connect your wallet!');
             return;
         }
+        if (buttonClicked) {
+            return;
+        } else {
+            setButtonClicked(true);
+            fetchTokenInfos().then(() => {
+                setIsLoading(false);
+            });
+        }
+    };
 
+    async function fetchTokenInfos() {
+        setIsLoading(true);
         // Fetch the user's token accounts
         const tokenAccounts = await fetch(`http://localhost:3001/api/tokenAccounts?owner=${publicKey.toString()}`).then((res) => res.json());
         console.log(tokenAccounts)
@@ -82,18 +86,22 @@ export default function Portfolio() {
                 value: value
             }
         })
+        newTotalValue = parseFloat(newTotalValue.toFixed(3));
         tokenAddressValues = tokenAddressValues.filter((info) => info.value > 0)
         tokenAddressValues = tokenAddressValues.sort((a, b) => b.value - a.value);
         setTokenInfos(tokenAddressValues);
 
         setLoadingText("Getting account historical value...");
-        const combinedHistoricValue = await getPortfolioHistoricValue(tokenAddressValues);
+        getPortfolioHistoricValue(tokenAddressValues).then((combinedHistoricValue) => {
+            setPortfolioHistoricValue(combinedHistoricValue);
+            // if (combinedHistoricValue.length > 30) setIsLoading(false);
+        });
 
         setTotalValue(newTotalValue);
-        setPortfolioHistoricValue(combinedHistoricValue);
-        console.log(portfolioHistoricValue, combinedHistoricValue)
     }
-
+    useEffect(() => {
+        setButtonClicked(false)
+    }, [publicKey])
     return (
         <div>
             <Center mt="20">
@@ -103,11 +111,11 @@ export default function Portfolio() {
                 </div>
             </Center>
             <Box>
-                <Box marginY={25} marginX={-500} borderRadius={25} backgroundColor="rgba(0,0,0,.8)" py={5} boxShadow="2xl">
+                {/* <Box marginY={25} marginX={-500} borderRadius={25} backgroundColor="rgba(0,0,0,.8)" py={5} boxShadow="2xl">
                     <Box ref={exportRef} p={16} py={10}>
                         <LineChart data1={portfolioHistoricValue} />
                     </Box>
-                </Box>
+                </Box> */}
             </Box>
             <div style={{ overflow: "auto" }}>
             </div>
@@ -118,9 +126,16 @@ export default function Portfolio() {
                 <>
                     <Text fontSize="4xl" ml="16" mt="20" fontWeight="extrabold">Total Value: ${totalValue}</Text>
                     {/* <LineChart data={portfolioHistoricValue} /> */}
-
-                    <Text mt="3" fontSize="2xl" fontWeight={700} mr="2">Balances</Text>
-                    <Box bg="rgba(0,0,0,.1)" boxShadow="xl" p="3" borderRadius={20}>
+                    <Flex justifyContent="space-between">
+                        <Box>
+                            <Flex mt="3">
+                                <Text fontSize="2xl" fontWeight={700} mr="2">Balances</Text>
+                                <IconButton aria-label='Table' icon={ } />
+                            </Flex>
+                        </Box>
+                        <Text mt="3" fontSize="2xl" fontWeight={700} mr="2">Balances</Text>
+                    </Flex>
+                    <Box bg="rgba(0,0,0,.05)" boxShadow="xl" p="3" borderRadius={20}>
                         {tokenInfos.map((tokenInfo, index) => (
                             <TokenInfoCard key={index} tokenInfo={tokenInfo} />
                         ))}

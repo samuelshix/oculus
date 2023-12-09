@@ -72,16 +72,69 @@ export async function getTokenPriceHistory(tokenName) {
   })
   return prices
 }
+async function clearDB() {
+  await prisma.price.deleteMany({})
+  await prisma.coin.deleteMany({})
+  const tokenWithPrices = await prisma.price.findMany({
+  })
+  console.log(tokenWithPrices)
+}
+async function manuallyUpdatePrices() {
+  // get today's date as a javascript date object
+  const today = new Date()
+  // for the first coin in the database, get the last price entry's date
+  const lastPrice = await prisma.price.findFirst({
+    orderBy: {
+      date: 'desc'
+    }
+  })
+  // get the timestamp of the last price entry
+  const lastPriceDate = (new Date(lastPrice.date)).getTime() / 1000
+  // get the difference in days between today and the last price entry
+  const differenceInUnixTime = (today - lastPriceDate)
+
+  // update each coin in the database
+  const coins = await prisma.coin.findMany({})
+  const res = coins.forEach(async (coin) => {
+    // get the coin's coinGeckoID
+    const coinGeckoID = coin.coinIdentifier
+    console.log(coin.coinIdentifier)
+    await fetch(`https://api.coingecko.com/api/v3/coins/${coinGeckoID}/market_chart/range?vs_currency=usd&from=${differenceInUnixTime}&to=${YESTERDAY}`)
+      .then(res => {
+        console.log(res.json())
+        res.json()
+      })
+      .then(json =>
+        json.prices.forEach(async (price) => {
+          await prisma.prices.create({
+            data: {
+              price: price.value,
+              date: new Date(price.unixTime * 1000),
+              coin: {
+                connect: {
+                  id: coin.id
+                }
+              }
+            }
+          })
+        })
+      )
+    // create a new price entry for each price in the price history
+  })
+  console.log(res)
+}
 async function main() {
-  // delete all fields
-  // await prisma.price.deleteMany({})
-  // await prisma.coin.deleteMany({})
-  // const tokenWithPrices = await prisma.price.findMany({
+  // await clearDB()
+  // await manuallyUpdatePrices()
+  // get the latest date for the first coin in the database
+  // const lastPrice = await prisma.price.findMany({
+  //   orderBy: {
+  //     date: 'desc'
+  //   }
   // })
-  // console.log(tokenWithPrices)
-
-
-  // console.dir(tokenWithPrices, { depth: null })
+  // get the timestamp of the last price entry
+  // const lastPriceDate = (new Date(lastPrice.date))
+  // console.log(lastPriceDate)
   // const prices = await prisma.coin.findUnique({
   //   where: {
   //     name: 'bitcoin'

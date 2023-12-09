@@ -8,16 +8,19 @@ export const fetchPortfolioHistoricalValue = async (tokenInfos: TokenInfo[]) => 
     for (let i = 0; i < tokenInfos.length; i++) {
         const tokenInfo = tokenInfos[i];
         try {
-            var tokenAddressHistory = await getTokenAddressHistory(tokenInfo);
+            var tokenAddressHistory: Array<any> = await getTokenAddressHistory(tokenInfo);
             console.log(tokenInfo.name, tokenAddressHistory);
             var prices = await getTokenPriceHistory(tokenInfo, tokenAddressHistory);
             console.log(tokenInfo.name, prices)
 
             var balance = 0
             const accountValueHistory = prices.map((item: any, index: number) => {
-                const tokenTransfer = tokenAddressHistory.find((transfer: any) => isSameDay(transfer.date, item.date))
+                const tokenTransfers = tokenAddressHistory.filter((transfer: any) => isSameDay(transfer.date, item.date));
 
-                if (tokenTransfer) balance = balance + tokenTransfer.amount
+                // Update the balance based on all found transfers for that day
+                tokenTransfers.forEach((transfer: any) => {
+                    balance = balance + transfer.amount;
+                });
 
                 return {
                     date: item.date,
@@ -111,7 +114,6 @@ export const getPortfolioHistoricValue = async (tokenAddressValues: Array<TokenI
             const existingValue = combinedHistoricValue.find((item) => isSameDay(item.date, element.date));
             if (typeof existingValue !== undefined && existingValue?.value) {
                 existingValue.value += element.value;
-                console.log("found", element.date, element.value)
             } else {
                 combinedHistoricValue.push({
                     date: element.date,

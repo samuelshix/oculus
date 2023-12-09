@@ -31,15 +31,14 @@ button {
   transition: .3s;
   border-radius: .5em !important;
   transform-style: preserve-3d;
-
 }
 button::before {
   content: "";
   position: absolute !important;
-  inset: 0px !important;
+  inset: 1px !important;
   transform: translate3d(0px, 0px, -1px); /* (X, Y, Z) */
   background: linear-gradient(45deg, rgba(60,169,255,1) 0%, rgba(60,169,255,1) 20%, rgba(255,27,27,1) 20%, rgba(255,33,29,1) 40%, rgba(255,111,57,1) 40%, rgba(255,114,58,1) 60%, rgba(255,175,80,1) 60%, rgba(255,180,82,1) 80%, rgba(45,162,6,1) 80%, rgba(27,161,0,1) 100%);
-  border-radius: .4em !important;
+  border-radius: .3em !important;
   transition: .3s !important;
 }
 
@@ -48,6 +47,21 @@ button:hover {
 }
 button:hover::before {
   transform: translate3d(5px, 5px, -1px) !important; /* (X, Y, Z) */
+}
+.wallet-adapter-modal-wrapper {
+  background-color: rgba(0,0,0,.5) !important;
+  backdrop-filter: blur(8px) !important;
+
+}
+.wallet-adapter-modal-wrapper ul {
+  padding: .5em !important;
+}
+.wallet-adapter-modal-wrapper button {
+  margin-bottom: .5em;
+  margin-right: .5em;
+}
+.wallet-adapter-modal-wrapper span, .wallet-adapter-modal-wrapper h1  {
+  color: var(--secondary-color) !important;
 }
 
 .light {

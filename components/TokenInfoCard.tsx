@@ -9,7 +9,7 @@ interface TokenInfoCardProps {
 
 const TokenInfoCard: React.FC<TokenInfoCardProps> = ({ tokenInfo, key: index }) => {
     return (
-        <Box py="5" px="4" mb="2" borderRadius={20} bg="rgba(0,0,0,.1)" shadow={"md"} key={index}>
+        <Box py="5" px="4" mb="2" borderRadius={20} bg="rgba(0,0,0,.05)" shadow={"md"} key={index}>
             <Flex>
                 <Box flex={2} mr="5">
                     <Flex alignItems="flex-start">
