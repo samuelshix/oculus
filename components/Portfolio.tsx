@@ -11,6 +11,7 @@ import LoadingAnimation from './LoadingAnimation';
 import TokenInfoCard from './TokenInfoCard';
 import mockData from '../mockData/example.json'
 import ToggleView from './ToggleView';
+import { TokenInfo } from '../models/dataTypes';
 export default function Portfolio() {
     const [tokenInfos, setTokenInfos] = useState<TokenInfo[]>([]);
     const { publicKey, sendTransaction } = useWallet();
