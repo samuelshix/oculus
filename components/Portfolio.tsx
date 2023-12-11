@@ -4,16 +4,11 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { FormEvent } from 'react';
 import { Button, Text, Box, Flex, Center, IconButton } from '@chakra-ui/react';
-import { TokenInfo } from '../models/TokenInfo';
 import { fetchPortfolioHistoricalValue, getPortfolioHistoricValue } from '../utils/fetchPortfolioHistoricalValue';
 import { LineChart } from './AreaChart';
 import LoadingAnimation from './LoadingAnimation';
-import { isSameDay } from 'date-fns';
-import exportAsImage from '../utils/captureImage';
-import CreateNFT from './CreateNFT';
+// import CreateNFT from './CreateNFT';
 import TokenInfoCard from './TokenInfoCard';
-import { faBars, faEnvelope, faSoap, faThLarge } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import mockData from '../mockData/example.json'
 import ToggleView from './ToggleView';
 export default function Portfolio() {
