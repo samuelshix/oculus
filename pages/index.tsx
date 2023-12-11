@@ -10,7 +10,7 @@ const Home: NextPage = () => {
   return (
     <div className={styles.App}>
       <Head>
-        <title>Oculus</title>
+        <title>Solana Account Value Historical</title>
       </Head>
       <AppBar />
       <Center>
