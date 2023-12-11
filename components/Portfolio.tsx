@@ -3,7 +3,7 @@ import { FC, useEffect, useRef, useState } from 'react';
 // import { Connection, PublicKey, PublicKeyInitData } from '@solana/web3.js';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { FormEvent } from 'react';
-import { Button, FormControl, Text, Image, Box, Flex, Center, IconButton } from '@chakra-ui/react';
+import { Button, Text, Box, Flex, Center, IconButton } from '@chakra-ui/react';
 import { TokenInfo } from '../models/TokenInfo';
 import { fetchPortfolioHistoricalValue, getPortfolioHistoricValue } from '../utils/fetchPortfolioHistoricalValue';
 import { LineChart } from './AreaChart';
@@ -12,8 +12,10 @@ import { isSameDay } from 'date-fns';
 import exportAsImage from '../utils/captureImage';
 import CreateNFT from './CreateNFT';
 import TokenInfoCard from './TokenInfoCard';
-import { get } from 'http';
-
+import { faBars, faEnvelope, faSoap, faThLarge } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import mockData from '../mockData/example.json'
+import ToggleView from './ToggleView';
 export default function Portfolio() {
     const [tokenInfos, setTokenInfos] = useState<TokenInfo[]>([]);
     const { publicKey, sendTransaction } = useWallet();
@@ -34,16 +36,14 @@ export default function Portfolio() {
             return;
         } else {
             setButtonClicked(true);
-            fetchTokenInfos().then(() => {
-                setIsLoading(false);
-            });
+            fetchTokenInfos();
         }
     };
 
     async function fetchTokenInfos() {
         setIsLoading(true);
         // Fetch the user's token accounts
-        const tokenAccounts = await fetch(`http://localhost:3001/api/tokenAccounts?owner=${publicKey.toString()}`).then((res) => res.json());
+        const tokenAccounts = await fetch(`http://localhost:3001/api/tokenAccounts?owner=${publicKey?.toString()}`).then((res) => res.json());
         console.log(tokenAccounts)
         // await connection.getParsedTokenAccountsByOwner(publicKey, {
         //     programId: new PublicKey('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'),
@@ -66,6 +66,7 @@ export default function Portfolio() {
                         name: foundTokenInfo?.name || 'Unknown',
                         logoURI: foundTokenInfo?.logoURI || '',
                         amount: accountInfo.amount / Math.pow(10, accountInfo.decimals),
+                        decimals: foundTokenInfo?.decimals,
                     };
                 } else return null;
             })
@@ -96,12 +97,14 @@ export default function Portfolio() {
             setPortfolioHistoricValue(combinedHistoricValue);
             // if (combinedHistoricValue.length > 30) setIsLoading(false);
         });
-
         setTotalValue(newTotalValue);
     }
     useEffect(() => {
         setButtonClicked(false)
     }, [publicKey])
+    useEffect(() => {
+        setIsLoading(false);
+    }, [portfolioHistoricValue])
     return (
         <div>
             <Center mt="20">
@@ -111,37 +114,37 @@ export default function Portfolio() {
                 </div>
             </Center>
             <Box>
-                {/* <Box marginY={25} marginX={-500} borderRadius={25} backgroundColor="rgba(0,0,0,.8)" py={5} boxShadow="2xl">
+                <Box marginY={25} marginX={-500} borderRadius={25} backgroundColor="rgba(0,0,0,.8)" py={5} boxShadow="2xl">
                     <Box ref={exportRef} p={16} py={10}>
                         <LineChart data1={portfolioHistoricValue} />
                     </Box>
-                </Box> */}
+                </Box>
             </Box>
             <div style={{ overflow: "auto" }}>
             </div>
             <Center>
                 <CreateNFT htmlElement={exportRef.current} />
             </Center>
-            {tokenInfos.length !== 0 &&
-                <>
-                    <Text fontSize="4xl" ml="16" mt="20" fontWeight="extrabold">Total Value: ${totalValue}</Text>
-                    {/* <LineChart data={portfolioHistoricValue} /> */}
-                    <Flex justifyContent="space-between">
-                        <Box>
-                            <Flex mt="3">
-                                <Text fontSize="2xl" fontWeight={700} mr="2">Balances</Text>
-                                <IconButton aria-label='Table' icon={ } />
-                            </Flex>
-                        </Box>
-                        <Text mt="3" fontSize="2xl" fontWeight={700} mr="2">Balances</Text>
-                    </Flex>
-                    <Box bg="rgba(0,0,0,.05)" boxShadow="xl" p="3" borderRadius={20}>
-                        {tokenInfos.map((tokenInfo, index) => (
-                            <TokenInfoCard key={index} tokenInfo={tokenInfo} />
-                        ))}
+            {/* {tokenInfos.length !== 0 && */}
+            <>
+                <Text fontSize="4xl" ml="16" mt="20" mb="5" fontWeight="extrabold">Total Value: ${totalValue}</Text>
+                {/* <LineChart data={portfolioHistoricValue} /> */}
+                <Flex justifyContent="space-between" marginBottom={2}>
+                    <Box>
+                        <Flex mt="3">
+                            <Text fontSize="3xl" fontWeight={700} mt="-1" mr="2">Balances</Text>
+                            <ToggleView />
+                        </Flex>
                     </Box>
-                </>
-            }
+                    <Text mt="3" fontSize="2xl" fontWeight={700} mr="2"></Text>
+                </Flex>
+                <Box bg="rgba(0,0,0,.05)" boxShadow="xl" p="3" borderRadius={20}>
+                    {(tokenInfos.length !== 0 ? tokenInfos : mockData).map((tokenInfo, index) => (
+                        <TokenInfoCard key={index} tokenInfo={tokenInfo} />
+                    ))}
+                </Box>
+            </>
+            {/* } */}
         </div >
     );
 }

@@ -1,7 +1,7 @@
 import express from 'express';
 import * as scripts from './priceHistoryScript.js';
 import cors from 'cors';
-import { getTokenTransfer } from './getTokenTransfer.js';
+import { handleTokenTransfers } from './getTokenTransfer.js';
 
 const app = express()
 const port = 3001
@@ -70,8 +70,10 @@ app.get('/api/priceHistory', async (req, res) => {
 })
 app.get('/api/tokenAddressHistory', async (req, res) => {
     const tokenAddress = req.query.tokenAddress;
-    var parsedTokenTransfers = await getTokenTransfer(tokenAddress);
-    parsedTokenTransfers = parsedTokenTransfers.filter(transfer => transfer.amount !== 0)
+    const mintDecimals = req.query.decimals;
+    const mint = req.query.mint;
+    var parsedTokenTransfers = await handleTokenTransfers(tokenAddress, mintDecimals, mint);
+
 
     res.send(parsedTokenTransfers);
     // console.log(signatures)

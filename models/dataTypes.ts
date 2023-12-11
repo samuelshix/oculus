@@ -8,6 +8,7 @@ export interface TokenInfo {
     price: number;
     value: number;
     coinGeckoId: { coingeckoId: string };
+    decimals: number;
 }
 
 export interface TokenHistoricValue {

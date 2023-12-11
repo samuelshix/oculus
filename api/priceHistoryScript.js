@@ -124,7 +124,7 @@ async function manuallyUpdatePrices() {
   console.log(res)
 }
 async function main() {
-  // await clearDB()
+  await clearDB()
   // await manuallyUpdatePrices()
   // get the latest date for the first coin in the database
   // const lastPrice = await prisma.price.findMany({
