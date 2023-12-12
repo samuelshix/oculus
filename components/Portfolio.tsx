@@ -12,6 +12,7 @@ import TokenInfoCard from './TokenInfoCard';
 import mockData from '../mockData/example.json'
 import ToggleView from './ToggleView';
 import { TokenInfo } from '../models/dataTypes';
+import CreateNFT from './CreateNFT';
 export default function Portfolio() {
     const [tokenInfos, setTokenInfos] = useState<TokenInfo[]>([]);
     const { publicKey, sendTransaction } = useWallet();
@@ -119,7 +120,7 @@ export default function Portfolio() {
             <div style={{ overflow: "auto" }}>
             </div>
             <Center>
-                {/* <CreateNFT htmlElement={exportRef.current} /> */}
+                {publicKey && <CreateNFT htmlElement={exportRef.current} />}
             </Center>
             {/* {tokenInfos.length !== 0 && */}
             <>

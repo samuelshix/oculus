@@ -1,8 +1,6 @@
 import { FC } from "react";
 import { Line } from 'react-chartjs-2';
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement, TimeScale, ScriptableContext, Filler, Tooltip, Title } from 'chart.js'
-import { Box } from "@chakra-ui/react";
-import { fontWeight } from "html2canvas/dist/types/css/property-descriptors/font-weight";
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, TimeScale, Filler, Tooltip, Title)
 
 export interface CardProps {
