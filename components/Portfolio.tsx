@@ -20,7 +20,7 @@ export default function Portfolio() {
     const [portfolioHistoricValue, setPortfolioHistoricValue] = useState<{ date: Date, value: number }[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [loadingText, setLoadingText] = useState<string>("Retrieving token balances...");
-    const exportRef = useRef<HTMLDivElement>()
+    const exportRef = useRef<HTMLDivElement | null>(null);
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -105,7 +105,7 @@ export default function Portfolio() {
         <div>
             <Center mt="20">
                 <div>
-                    <Button type="submit" onClick={handleSubmit}>Fetch Token Infos</Button>
+                    <Button type="submit" onClick={() => handleSubmit}>Fetch Token Infos</Button>
                     <LoadingAnimation loading={isLoading} text={loadingText} />
                 </div>
             </Center>

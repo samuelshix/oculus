@@ -8,9 +8,10 @@
         },
         "name": "JITO",
         "logoURI": "https://metadata.jito.network/token/jto/image",
-        "amount": 1501.130223357,
-        "price": 3.351492705,
-        "value": 5031.027
+        "amount": 1560.240235558,
+        "decimals": 9,
+        "price": 3.153168138,
+        "value": 4919.7
     },
     {
         "mintAddress": "3NZ9JMVBmGAqocybic2c7LQCJScmgsAZ6vQqTDzcqmJh",
@@ -21,9 +22,10 @@
         },
         "name": "Wrapped BTC (Portal)",
         "logoURI": "https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/WBTC_wh.png",
-        "amount": 0.09100735,
-        "price": 43982.91703502,
-        "value": 4002.769
+        "amount": 0.08800735,
+        "decimals": 8,
+        "price": 42281.86784379,
+        "value": 3721.115
     },
     {
         "mintAddress": "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263",
@@ -34,9 +36,10 @@
         },
         "name": "BonkCoin",
         "logoURI": "https://arweave.net/hQiPZOsRZXGXBJd_82PhVdlM_hACsT_q6wqwf5cSY7I?ext=png",
-        "amount": 150916077.58259,
-        "price": 0.0000107329,
-        "value": 1619.767
+        "amount": 271005458.88053,
+        "decimals": 5,
+        "price": 0.0000118751,
+        "value": 3218.217
     },
     {
         "mintAddress": "J1toso1uCk3RLmjorhTtrVwY9HJ7X8V9yYac6Y7kGCPn",
@@ -47,9 +50,38 @@
         },
         "name": "Jito Staked SOL",
         "logoURI": "https://storage.googleapis.com/token-metadata/JitoSOL-256.png",
-        "amount": 17.26650037,
-        "price": 77.51030447,
-        "value": 1338.332
+        "amount": 30.567508858,
+        "decimals": 9,
+        "price": 75.626717245,
+        "value": 2311.72
+    },
+    {
+        "mintAddress": "bSo13r4TkiE4KumL71LsHTPpL2euBYLFx6h9HP3piy1",
+        "tokenAddress": "JmGnwt9PTeU1NXvHXPu5coz7omGafwsNNNKcNEoqr8B",
+        "symbol": "bSOL",
+        "coinGeckoId": {
+            "coingeckoId": "blazestake-staked-sol"
+        },
+        "name": "BlazeStake Staked SOL (bSOL)",
+        "logoURI": "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/bSo13r4TkiE4KumL71LsHTPpL2euBYLFx6h9HP3piy1/logo.png",
+        "amount": 23.926237574,
+        "decimals": 9,
+        "price": 77.20590782,
+        "value": 1847.247
+    },
+    {
+        "mintAddress": "hntyVP6YFm1Hg25TN9WGLqM12b8TQmcknKrdu1oxWux",
+        "tokenAddress": "7HdvMrGqb9xwcoWghTpfFLkCZza3vVejeJ1gN4XyJ6J4",
+        "symbol": "HNT",
+        "coinGeckoId": {
+            "coingeckoId": "helium"
+        },
+        "name": "Helium Network Token",
+        "logoURI": "https://shdw-drive.genesysgo.net/CsDkETHRRR1EcueeN346MJoqzymkkr7RFjMqGpZMzAib/hnt.png",
+        "amount": 240.1435897,
+        "decimals": 8,
+        "price": 5.08299523,
+        "value": 1220.649
     },
     {
         "mintAddress": "HZ1JovNiVvGrGNiiYvEozEVgZ58xaU3RKwX8eACQBCt3",
@@ -61,8 +93,9 @@
         "name": "Pyth Network",
         "logoURI": "https://pyth.network/token.svg",
         "amount": 2832.481228,
-        "price": 0.449703,
-        "value": 1273.775
+        "decimals": 6,
+        "price": 0.418177,
+        "value": 1184.479
     },
     {
         "mintAddress": "SHDWyBxihqiCj6YekG2GUr7wqKLeLAMK1gHZck9pL6y",
@@ -74,21 +107,9 @@
         "name": "Shadow Token",
         "logoURI": "https://shdw-drive.genesysgo.net/FDcC9gn12fFkSU2KuQYH4TUjihrZxiTodFRWNF4ns9Kt/250x250_with_padding.png",
         "amount": 1671.945042242,
-        "price": 0.699140319,
-        "value": 1168.924
-    },
-    {
-        "mintAddress": "hntyVP6YFm1Hg25TN9WGLqM12b8TQmcknKrdu1oxWux",
-        "tokenAddress": "7HdvMrGqb9xwcoWghTpfFLkCZza3vVejeJ1gN4XyJ6J4",
-        "symbol": "HNT",
-        "coinGeckoId": {
-            "coingeckoId": "helium"
-        },
-        "name": "Helium Network Token",
-        "logoURI": "https://shdw-drive.genesysgo.net/CsDkETHRRR1EcueeN346MJoqzymkkr7RFjMqGpZMzAib/hnt.png",
-        "amount": 232.69955209,
-        "price": 4.27721344,
-        "value": 995.306
+        "decimals": 9,
+        "price": 0.685067861,
+        "value": 1145.396
     },
     {
         "mintAddress": "4vMsoUT2BWatFweudnQM1xedRLfJgJ7hswhcpz4xgBTy",
@@ -100,8 +121,9 @@
         "name": "HONEY",
         "logoURI": "https://hivemapper-marketing-public.s3.us-west-2.amazonaws.com/Hivemapper_HONEY_token.png",
         "amount": 4741.874266251,
-        "price": 0.164650557,
-        "value": 780.752
+        "decimals": 9,
+        "price": 0.218037785,
+        "value": 1033.908
     },
     {
         "mintAddress": "rndrizKT3MK1iimdxRdWabcF7Zg7AR5T4nud4EkHBof",
@@ -113,8 +135,9 @@
         "name": "Render Token",
         "logoURI": "https://shdw-drive.genesysgo.net/5zseP54TGrcz9C8HdjZwJJsZ6f3VbP11p1abwKWGykZH/rndr.png",
         "amount": 119.30069311,
-        "price": 3.66143202,
-        "value": 436.811
+        "decimals": 8,
+        "price": 3.53828731,
+        "value": 422.12
     },
     {
         "mintAddress": "HovGjrBGTfna4dvg6exkMxXuexB3tUfEZKcut8AWowXj",
@@ -123,9 +146,10 @@
         "coinGeckoId": "",
         "name": "Space Falcon",
         "logoURI": "https://raw.githubusercontent.com/spacefalcon-io/crypto/main/logo.svg",
-        "amount": 581928.2555,
-        "price": 0.000652261,
-        "value": 379.569
+        "amount": 561928.2555,
+        "decimals": 4,
+        "price": 0.00057123,
+        "value": 320.99
     },
     {
         "mintAddress": "ATLASXmbPQxBUYbxPsV97usA3fPQYEqzQBUHgiFCUsXx",
@@ -137,7 +161,22 @@
         "name": "Star Atlas",
         "logoURI": "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/ATLASXmbPQxBUYbxPsV97usA3fPQYEqzQBUHgiFCUsXx/logo.png",
         "amount": 28117.28373291,
-        "price": 0.0065307349,
-        "value": 183.627
+        "decimals": 8,
+        "price": 0.0063718787,
+        "value": 179.16
+    },
+    {
+        "mintAddress": "NeonTjSjsuo3rexg9o6vHuMXw62f9V7zvmu8M8Zut44",
+        "tokenAddress": "5Er479b6SYc2AMArHDjjJ3q5xb295kyMEWitAc4BGjga",
+        "symbol": "NEON",
+        "coinGeckoId": {
+            "coingeckoId": "neon"
+        },
+        "name": "Neon EVM Token",
+        "logoURI": "https://neonevm.org/neon_token/neon_token.png",
+        "amount": 147.964929856,
+        "decimals": 9,
+        "price": 0.483144955,
+        "value": 71.489
     }
 ]
