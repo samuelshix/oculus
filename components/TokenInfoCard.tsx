@@ -3,13 +3,12 @@ import { TokenInfo } from '../models/dataTypes';
 import { Box, Flex, Text, Image } from '@chakra-ui/react';
 
 interface TokenInfoCardProps {
-    tokenInfo: TokenInfo,
-    key: number
+    tokenInfo: TokenInfo
 }
 
-const TokenInfoCard: React.FC<TokenInfoCardProps> = ({ tokenInfo, key: index }) => {
+const TokenInfoCard: React.FC<TokenInfoCardProps> = ({ tokenInfo }) => {
     return (
-        <Box py="5" px="4" mb="2" borderRadius={20} bg="rgba(0,0,0,.05)" shadow={"md"} key={index}>
+        <Box py="5" px="4" mb="2" borderRadius={20} bg="rgba(0,0,0,.05)" shadow={"md"}>
             <Flex>
                 <Box flex={2} mr="5">
                     <Flex alignItems="flex-start">
