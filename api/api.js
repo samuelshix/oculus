@@ -1,17 +1,26 @@
 import express from 'express';
-import * as scripts from './priceHistoryScript.js';
+import { createToken, getTokenPriceHistory, updateMissingPrices, checkIfTokenExists } from './priceHistoryScript.js';
 import cors from 'cors';
 import { handleTokenTransfers } from './getTokenTransfer.js';
+import { uploadImage } from './ShadowStorage/uploadImage.js';
+import multer from 'multer';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express()
 const port = 3001
-
 app.use(cors())
+// parse application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: false }))
 
-const apiKey = process.env.HELIUS_API_KEY;
-const SPL_TOKEN_PROGRAM_ID = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
+// parse application/json
+app.use(express.json())
+
+const apiKey = process.env.NEXT_PUBLIC_HELIUS_API_KEY;
 
 const getAssetsByOwner = async (walletAddress) => {
+    console.log(apiKey)
     const url = `https://api.helius.xyz/v0/addresses/${walletAddress}/balances?api-key=${apiKey}`;
     const response = await fetch(url);
     const data = await response.json();
@@ -45,23 +54,24 @@ app.get('/api/prices', async (req, res) => {
     res.send(price);
 })
 app.get('/api/priceHistory', async (req, res) => {
-    const token = await scripts.checkIfTokenExists(req.query.tokenIdentifier)
+    // updateMissingPrices();
+    const token = await checkIfTokenExists(req.query.tokenIdentifier)
     const coinName = req.query.name;
     // if token exists in the database, return the price history, otherwise create a token object in the database
     if (token) {
-        const prices = await scripts.getTokenPriceHistory(coinName);
-        console.log('Token found: ', token)
+        const prices = await getTokenPriceHistory(coinName);
+        console.log('Token found: ', token.name)
         res.send({ coinName: coinName, prices: prices })
     } else {
         console.log("creating coin name", coinName)
-        scripts.createToken(
+        createToken(
             req.query.tokenIdentifier,
             req.query.newToken,
             req.query.mint,
             coinName)
             .then(token => {
-                scripts.getTokenPriceHistory(coinName).then(prices => {
-                    console.log('Token created: ', token)
+                getTokenPriceHistory(coinName).then(prices => {
+                    console.log('Token created: ', token.name)
                     res.send({ coinName: coinName, prices: prices })
                 })
             })
@@ -71,29 +81,21 @@ app.get('/api/priceHistory', async (req, res) => {
 app.get('/api/tokenAddressHistory', async (req, res) => {
     const tokenAddress = req.query.tokenAddress;
     const mintDecimals = req.query.decimals;
+    const isNativeTransfer = req.query.isNativeTransfer;
     const mint = req.query.mint;
-    var parsedTokenTransfers = await handleTokenTransfers(tokenAddress, mintDecimals, mint);
+    var parsedTokenTransfers = await handleTokenTransfers(tokenAddress, mintDecimals, mint, isNativeTransfer);
 
 
     res.send(parsedTokenTransfers);
-    // console.log(signatures)
-    // const url = `https://api.helius.xyz/v0/transactions?api-key=${apiKey}`
-    // const response = await fetch(url, {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({
-    //         transactions: ["your-txn-id-here"],
-    //     }),
-    // });
-
-    // const data = await response.json();
-    // console.log("tokenAddressHistory: ", data);
 })
-app.get('/api/createNFT', async (req, res) => {
 
+
+const upload = multer();
+app.post('/api/nft/uploadImage', upload.single('file'), async (req, res) => {
+    const url = await uploadImage(req.file.buffer)
+    res.send(url)
 })
+
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })

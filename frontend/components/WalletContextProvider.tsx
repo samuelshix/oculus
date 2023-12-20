@@ -6,7 +6,7 @@ import * as walletAdapterWallets from '@solana/wallet-adapter-wallets';
 require('@solana/wallet-adapter-react-ui/styles.css');
 
 const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
-	const endpoint = 'https://mainnet.helius-rpc.com/?api-key=6674cc09-55bd-4ac9-a44d-bc712dbc3f6f'
+	const endpoint = `https://mainnet.helius-rpc.com/?api-key=${process.env.NEXT_PUBLIC_HELIUS_API_KEY}`
 
 	const wallets = [
 		new walletAdapterWallets.SolflareWalletAdapter()

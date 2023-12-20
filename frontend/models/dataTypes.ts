@@ -7,7 +7,7 @@ export interface TokenInfo {
     logoURI: string;
     price: number;
     value: number;
-    coinGeckoId: { coingeckoId: string } | string;
+    coinGeckoId?: string;
     decimals: number;
 }
 

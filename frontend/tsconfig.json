@@ -23,7 +23,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "api/priceHistoryScript.js"
+    "api/priceHistoryScript.js",
+    "api/ShadowStorage/createStorageAccount.js"
   ],
   "exclude": [
     "node_modules"

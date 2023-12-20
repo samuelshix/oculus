@@ -3,9 +3,7 @@
         "mintAddress": "jtojtomepa8beP8AuQc6eXt5FriJwfFMwQx2v2f9mCL",
         "tokenAddress": "JDdivcYw8RXPncrEQgkBUAoyWrgtqGrEGd8jbaT8Jbqd",
         "symbol": "JTO",
-        "coinGeckoId": {
-            "coingeckoId": "jito-governance-token"
-        },
+        "coingeckoId": "jito-governance-token",
         "name": "JITO",
         "logoURI": "https://metadata.jito.network/token/jto/image",
         "amount": 1560.240235558,
@@ -17,9 +15,7 @@
         "mintAddress": "3NZ9JMVBmGAqocybic2c7LQCJScmgsAZ6vQqTDzcqmJh",
         "tokenAddress": "DS8EN44iQ9rFmJkrUWfnhF5NHCKrHMRh2cXHUWhXCcux",
         "symbol": "WBTC",
-        "coinGeckoId": {
-            "coingeckoId": "wrapped-btc-wormhole"
-        },
+        "coingeckoId": "wrapped-btc-wormhole",
         "name": "Wrapped BTC (Portal)",
         "logoURI": "https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/WBTC_wh.png",
         "amount": 0.08800735,
@@ -31,9 +27,7 @@
         "mintAddress": "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263",
         "tokenAddress": "7bESAvtaTXHebxr3ioBff6dazURNVv84AEWU7Ua9wrdw",
         "symbol": "Bonk",
-        "coinGeckoId": {
-            "coingeckoId": "bonk"
-        },
+        "coingeckoId": "bonk",
         "name": "BonkCoin",
         "logoURI": "https://arweave.net/hQiPZOsRZXGXBJd_82PhVdlM_hACsT_q6wqwf5cSY7I?ext=png",
         "amount": 271005458.88053,
@@ -45,9 +39,7 @@
         "mintAddress": "J1toso1uCk3RLmjorhTtrVwY9HJ7X8V9yYac6Y7kGCPn",
         "tokenAddress": "3VYqrCEfedR4C8PncpWh8wnVrxMf3JYSLPMJtHy4VxHJ",
         "symbol": "JitoSOL",
-        "coinGeckoId": {
-            "coingeckoId": "jito-staked-sol"
-        },
+        "coingeckoId": "jito-staked-sol",
         "name": "Jito Staked SOL",
         "logoURI": "https://storage.googleapis.com/token-metadata/JitoSOL-256.png",
         "amount": 30.567508858,
@@ -59,9 +51,7 @@
         "mintAddress": "bSo13r4TkiE4KumL71LsHTPpL2euBYLFx6h9HP3piy1",
         "tokenAddress": "JmGnwt9PTeU1NXvHXPu5coz7omGafwsNNNKcNEoqr8B",
         "symbol": "bSOL",
-        "coinGeckoId": {
-            "coingeckoId": "blazestake-staked-sol"
-        },
+        "coingeckoId": "blazestake-staked-sol",
         "name": "BlazeStake Staked SOL (bSOL)",
         "logoURI": "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/bSo13r4TkiE4KumL71LsHTPpL2euBYLFx6h9HP3piy1/logo.png",
         "amount": 23.926237574,
@@ -73,9 +63,7 @@
         "mintAddress": "hntyVP6YFm1Hg25TN9WGLqM12b8TQmcknKrdu1oxWux",
         "tokenAddress": "7HdvMrGqb9xwcoWghTpfFLkCZza3vVejeJ1gN4XyJ6J4",
         "symbol": "HNT",
-        "coinGeckoId": {
-            "coingeckoId": "helium"
-        },
+        "coingeckoId": "helium",
         "name": "Helium Network Token",
         "logoURI": "https://shdw-drive.genesysgo.net/CsDkETHRRR1EcueeN346MJoqzymkkr7RFjMqGpZMzAib/hnt.png",
         "amount": 240.1435897,
@@ -87,9 +75,7 @@
         "mintAddress": "HZ1JovNiVvGrGNiiYvEozEVgZ58xaU3RKwX8eACQBCt3",
         "tokenAddress": "4LXiirkBUDJmrQiTXY4dfePqhm3cwUUjQJBgnk241ar7",
         "symbol": "PYTH",
-        "coinGeckoId": {
-            "coingeckoId": "pyth-network"
-        },
+        "coingeckoId": "pyth-network",
         "name": "Pyth Network",
         "logoURI": "https://pyth.network/token.svg",
         "amount": 2832.481228,
@@ -101,9 +87,7 @@
         "mintAddress": "SHDWyBxihqiCj6YekG2GUr7wqKLeLAMK1gHZck9pL6y",
         "tokenAddress": "2ZiBZYS2efnTXWAVeLaT29PrKigFy5rVsXT4g2nLZTCE",
         "symbol": "SHDW",
-        "coinGeckoId": {
-            "coingeckoId": "genesysgo-shadow"
-        },
+        "coingeckoId": "genesysgo-shadow",
         "name": "Shadow Token",
         "logoURI": "https://shdw-drive.genesysgo.net/FDcC9gn12fFkSU2KuQYH4TUjihrZxiTodFRWNF4ns9Kt/250x250_with_padding.png",
         "amount": 1671.945042242,
@@ -115,9 +99,7 @@
         "mintAddress": "4vMsoUT2BWatFweudnQM1xedRLfJgJ7hswhcpz4xgBTy",
         "tokenAddress": "CyRKfzwa2JDRsR4wVWQ8vSRh1T4N8mULzvdPQquWyq1H",
         "symbol": "HONEY",
-        "coinGeckoId": {
-            "coingeckoId": "hivemapper"
-        },
+        "coingeckoId": "hivemapper",
         "name": "HONEY",
         "logoURI": "https://hivemapper-marketing-public.s3.us-west-2.amazonaws.com/Hivemapper_HONEY_token.png",
         "amount": 4741.874266251,
@@ -129,9 +111,7 @@
         "mintAddress": "rndrizKT3MK1iimdxRdWabcF7Zg7AR5T4nud4EkHBof",
         "tokenAddress": "4xAoc8DLDADbiLu2XfUAGWzR7XdUxXJo2s8vBmFQxfpK",
         "symbol": "RENDER",
-        "coinGeckoId": {
-            "coingeckoId": "render-token"
-        },
+        "coingeckoId": "render-token",
         "name": "Render Token",
         "logoURI": "https://shdw-drive.genesysgo.net/5zseP54TGrcz9C8HdjZwJJsZ6f3VbP11p1abwKWGykZH/rndr.png",
         "amount": 119.30069311,
@@ -155,9 +135,7 @@
         "mintAddress": "ATLASXmbPQxBUYbxPsV97usA3fPQYEqzQBUHgiFCUsXx",
         "tokenAddress": "H9NQ2APXkRHBk6Q4a7bRSp7iaY1CMPDeAkpYLAJqEm45",
         "symbol": "ATLAS",
-        "coinGeckoId": {
-            "coingeckoId": "star-atlas"
-        },
+        "coingeckoId": "star-atlas",
         "name": "Star Atlas",
         "logoURI": "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/ATLASXmbPQxBUYbxPsV97usA3fPQYEqzQBUHgiFCUsXx/logo.png",
         "amount": 28117.28373291,
@@ -169,9 +147,7 @@
         "mintAddress": "NeonTjSjsuo3rexg9o6vHuMXw62f9V7zvmu8M8Zut44",
         "tokenAddress": "5Er479b6SYc2AMArHDjjJ3q5xb295kyMEWitAc4BGjga",
         "symbol": "NEON",
-        "coinGeckoId": {
-            "coingeckoId": "neon"
-        },
+        "coingeckoId": "neon",
         "name": "Neon EVM Token",
         "logoURI": "https://neonevm.org/neon_token/neon_token.png",
         "amount": 147.964929856,

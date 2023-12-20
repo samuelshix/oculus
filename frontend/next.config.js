@@ -2,6 +2,9 @@
 var webpack = require('webpack');
 
 const nextConfig = {
+  env: {
+    NEXT_PUBLIC_HELIUS_API_KEY: process.env.NEXT_PUBLIC_HELIUS_API_KEY,
+  },
   // webpack: (config, options) => {
   //   config.module.rules.push({
   //     test: /\.m?js/,

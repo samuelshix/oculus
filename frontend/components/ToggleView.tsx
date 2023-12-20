@@ -7,10 +7,17 @@ import { useRef, useState } from "react"
 export default function ToggleView() {
     const [targetLocation, setTargetLocation] = useState<number>(0);
     const toggleSelector = useRef(null);
+    const handleGridSelect = () => {
+        setTargetLocation(36);
+        // toggleSelector!.style.transform = 
+    }
+    function handleTableSelect(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
+        setTargetLocation(0);
+    }
 
-    function handleGridSelect(): void { setTargetLocation(36); }
-    function handleTableSelect(): void { setTargetLocation(0); }
-    function handleBubbleSelect(): void { setTargetLocation(72); }
+    function handleBubbleSelect(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
+        setTargetLocation(72);
+    }
 
     return (
         <Flex justifyContent="space-between" borderRadius="xl" bg="rgba(0,0,0,.1)" px={2} py={1} mb={2} width="120px">
