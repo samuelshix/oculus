@@ -35,6 +35,6 @@ yarn-error.log*
 *.tsbuildinfo
 
 # SHDW
-/components/ShadowDrive/
+./api/.env
 
 N1VSg77Gwz2Raz48PYETHKRLYdxDVvcuespZK9wdK99.json
