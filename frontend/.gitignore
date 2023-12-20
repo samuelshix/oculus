@@ -34,7 +34,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 
-# SHDW
-./api/.env
 
 N1VSg77Gwz2Raz48PYETHKRLYdxDVvcuespZK9wdK99.json
