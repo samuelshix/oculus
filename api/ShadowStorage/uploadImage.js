@@ -1,7 +1,7 @@
 import anchor from "@project-serum/anchor";
 import { Connection, Keypair } from "@solana/web3.js";
 import { ShdwDrive } from "@shadow-drive/sdk";
-import key from '../../N1VSg77Gwz2Raz48PYETHKRLYdxDVvcuespZK9wdK99.json' assert { type: "json"};
+import key from './N1VSg77Gwz2Raz48PYETHKRLYdxDVvcuespZK9wdK99.json' assert { type: "json"};
 import dotenv from 'dotenv';
 dotenv.config();
 
