@@ -3,17 +3,17 @@ import { FC, useEffect, useRef, useState } from 'react';
 // import { Connection, PublicKey, PublicKeyInitData } from '@solana/web3.js';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { FormEvent } from 'react';
-import { Button, Text, Box, Flex, Center, IconButton } from '@chakra-ui/react';
-import { fetchPortfolioHistoricalValue, getPortfolioHistoricValue } from '../utils/fetchPortfolioHistoricalValue';
+import { Button, Text, Box, Flex, Center } from '@chakra-ui/react';
+import { getPortfolioHistoricValue } from '../utils/fetchPortfolioHistoricalValue';
 import { LineChart } from './AreaChart';
 import LoadingAnimation from './LoadingAnimation';
 // import CreateNFT from './CreateNFT';
 import TokenInfoCard from './TokenInfoCard';
 import mockData from '../mockData/example.json'
-import ToggleView from './ToggleView';
 import { TokenInfo } from '../models/dataTypes';
 import CreateNFT from './CreateNFT';
-import { LAMPORTS_PER_SOL } from '@solana/web3.js';
+import { bs58 } from '@project-serum/anchor/dist/cjs/utils/bytes';
+
 export default function Portfolio() {
     const [tokenInfos, setTokenInfos] = useState<TokenInfo[]>([]);
     const { publicKey, sendTransaction } = useWallet();
@@ -70,7 +70,7 @@ export default function Portfolio() {
                         mintAddress: accountInfo.mint,
                         tokenAddress: accountInfo.tokenAccount,
                         symbol: foundTokenInfo?.symbol || 'Unknown',
-                        coinGeckoId: foundTokenInfo.extensions || '',
+                        coinGeckoId: foundTokenInfo.extensions.coinGeckoId as string || '',
                         name: foundTokenInfo?.name || 'Unknown',
                         logoURI: foundTokenInfo?.logoURI || '',
                         amount: accountInfo.amount / Math.pow(10, accountInfo.decimals),
@@ -160,15 +160,18 @@ export default function Portfolio() {
                     <Box>
                         <Flex mt="3">
                             <Text fontSize="3xl" fontWeight={700} mt="-1" mr="2">Balances</Text>
-                            <ToggleView />
                         </Flex>
                     </Box>
                     <Text mt="3" fontSize="2xl" fontWeight={700} mr="2"></Text>
                 </Flex>
                 <Box bg="rgba(0,0,0,.05)" boxShadow="xl" p="3" borderRadius={20}>
-                    {(tokenInfos.length !== 0 ? tokenInfos : mockData).map((tokenInfo, index) => (
-                        <TokenInfoCard tokenInfo={tokenInfo} />
-                    ))}
+                    {(tokenInfos.length !== 0 ? tokenInfos : mockData)
+                        // .filter((tokenInfo): tokenInfo is TokenInfo => 'coinGeckoId' in tokenInfo)
+                        .map((tokenInfo, index) => (
+                            <Box key={index}>
+                                <TokenInfoCard tokenInfo={tokenInfo} />
+                            </Box>
+                        ))}
                 </Box>
             </>
             {/* } */}

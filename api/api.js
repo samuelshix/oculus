@@ -18,9 +18,9 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
 const apiKey = process.env.NEXT_PUBLIC_HELIUS_API_KEY;
-const SPL_TOKEN_PROGRAM_ID = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
 
 const getAssetsByOwner = async (walletAddress) => {
+    console.log(apiKey)
     const url = `https://api.helius.xyz/v0/addresses/${walletAddress}/balances?api-key=${apiKey}`;
     const response = await fetch(url);
     const data = await response.json();

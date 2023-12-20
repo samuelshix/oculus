@@ -1,18 +1,13 @@
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { useWallet } from "@solana/wallet-adapter-react";
 import { FC } from "react";
 import html2canvas from "html2canvas";
 import { Button } from "@chakra-ui/react";
-
-import { ShadowFile, ShdwDrive } from "@shadow-drive/sdk";
 import { mintCompressedNft } from "../utils/mintNFT";
 // import 
 type CreateNFTProps = {
     htmlElement: HTMLDivElement;
 };
-import key from '../N1VSg77Gwz2Raz48PYETHKRLYdxDVvcuespZK9wdK99.json';
-import { PublicKey, PublicKeyInitData } from "@solana/web3.js";
-// import { ShadowUploadImage } from "../utils/shdwUploadNFT";
-import { stringify } from "querystring";
+
 import axios from "axios";
 
 
@@ -51,7 +46,6 @@ const CreateNFT: FC<CreateNFTProps> = ({ htmlElement }) => {
 
         const context = canvas.getContext("2d");
         const imageData = context?.getImageData(0, 0, canvas.width, canvas.height);
-        const buffer = imageData?.data.buffer
 
         // const imageFile = canvas.toDataURL();
         let imageUrl: string | undefined;

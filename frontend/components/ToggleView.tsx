@@ -11,11 +11,11 @@ export default function ToggleView() {
         setTargetLocation(36);
         // toggleSelector!.style.transform = 
     }
-    function handleTableSelect(event: MouseEvent<HTMLButtonElement, MouseEvent>): void {
+    function handleTableSelect(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
         setTargetLocation(0);
     }
 
-    function handleBubbleSelect(event: MouseEvent<HTMLButtonElement, MouseEvent>): void {
+    function handleBubbleSelect(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
         setTargetLocation(72);
     }
 

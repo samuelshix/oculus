@@ -63,7 +63,7 @@ export const getTokenAddressHistory = async (tokenInfo: TokenInfo) => {
 
 export const getTokenPriceHistory = async (tokenInfo: TokenInfo, tokenAddressHistory: Array<any>) => {
     const firstDate = tokenAddressHistory[0].date;
-    const tokenIdentifier = tokenInfo.coinGeckoId ? tokenInfo.coinGeckoId.coingeckoId : tokenInfo.symbol;
+    const tokenIdentifier = tokenInfo.coinGeckoId ? tokenInfo.coinGeckoId : tokenInfo.symbol;
     const url = `http://localhost:3001/api/priceHistory?tokenIdentifier=${tokenIdentifier}&newToken=${!tokenInfo.coinGeckoId}&mint=${tokenInfo.mintAddress}&name=${tokenInfo.name}`
     console.log(url)
     var { prices }: { "prices": any[] } = await fetch(url)
