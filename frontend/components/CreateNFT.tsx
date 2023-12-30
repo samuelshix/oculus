@@ -55,7 +55,7 @@ const CreateNFT: FC<CreateNFTProps> = ({ htmlElement }) => {
             const file = new File([blob!], "Portfolio.png");
             data.append('file', file, 'Portfolio.png');
             await axios.post(
-                `http://localhost:3001/api/nft/uploadImage`,
+                `/api/nft/uploadImage`,
                 data,
                 {
                     headers: {
@@ -76,14 +76,14 @@ const CreateNFT: FC<CreateNFTProps> = ({ htmlElement }) => {
         })
 
 
-        // const imageUrl = await axios.post(`http://localhost:3001/api/nft/uploadImage`, data).then(res => {
+        // const imageUrl = await axios.post(`/api/nft/uploadImage`, data).then(res => {
         //     return res.data
         // })
         // var data = stringify({
         //     workerName: 'ImageUploader',
         //     data: buffer!.toString()
         // });
-        // const imageUrl = await fetch(`http://localhost:3001/api/nft/uploadImage`, {
+        // const imageUrl = await fetch(`/api/nft/uploadImage`, {
         //     method: 'POST',
         //     body: data,
         //     headers: {
@@ -97,7 +97,7 @@ const CreateNFT: FC<CreateNFTProps> = ({ htmlElement }) => {
         // let imageUrl;
 
         // try {
-        //     imageUrl = await fetch(`http://localhost:3001/api/nft/uploadImage/${data}`, {
+        //     imageUrl = await fetch(`/api/nft/uploadImage/${data}`, {
         //         method: 'POST',
         //         headers: {
         //             'Content-Type': 'multipart/form-data'

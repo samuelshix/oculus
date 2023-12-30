@@ -1,5 +1,13 @@
 /** @type {import('next').NextConfig} */
 var webpack = require('webpack');
+const env = process.env.NODE_ENV
+
+let API_URL;
+if(env == "development") {
+  API_URL = "http://localhost:3001/api/:path*"
+} else if (env == "production") {
+  API_URL = "https://portfolio-snapshot-checker.onrender.com/api/:path*"
+}
 
 const nextConfig = {
   env: {
@@ -37,7 +45,7 @@ const nextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: "http://localhost:3001/api/:path*"
+        destination: API_URL
       }
     ]
   },
