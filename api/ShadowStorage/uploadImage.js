@@ -1,10 +1,20 @@
 import anchor from "@project-serum/anchor";
 import { Connection, Keypair } from "@solana/web3.js";
 import { ShdwDrive } from "@shadow-drive/sdk";
-import key from './N1VSg77Gwz2Raz48PYETHKRLYdxDVvcuespZK9wdK99.json' assert { type: "json"};
 import dotenv from 'dotenv';
 dotenv.config();
 
+let key;
+if (process.env.NODE_ENV === 'development') {
+    fetch('./N1VSg77Gwz2Raz48PYETHKRLYdxDVvcuespZK9wdK99.json')
+    .then((response) => {
+        key = response.json()
+    })
+  }
+if (process.env.NODE_ENV === 'production') {
+    key = process.env.SHADOW_SECRET_KEY
+  }
+  
 export async function uploadImage(fileBuffer) {
     let secretKey = Uint8Array.from(key);
     let keypair = Keypair.fromSecretKey(secretKey);

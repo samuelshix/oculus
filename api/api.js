@@ -6,6 +6,12 @@ import { uploadImage } from './ShadowStorage/uploadImage.js';
 import multer from 'multer';
 import dotenv from 'dotenv';
 
+if (process.env.NODE_ENV === 'development') {
+    console.log("dev")
+  }
+if (process.env.NODE_ENV === 'production') {
+    console.log("production")
+  }
 dotenv.config();
 
 const app = express()
