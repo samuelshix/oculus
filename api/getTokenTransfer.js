@@ -4,7 +4,6 @@ const TRANSFER_TX_TYPES = ["WITHDRAW", "DEPOSIT", "SWAP", "TRANSFER", "TOKEN_MIN
 const apiKey = process.env.HELIUS_API_KEY;
 
 const getTransfersForAddress = async (tokenAddress) => {
-    // const url = `https://api.helius.xyz/v0/addresses/${tokenAddress}/transactions?&api-key=${apiKey}`;
     const url = `https://api.solana.fm/v0/accounts/${tokenAddress}/transfers?utcFrom=0&utcTo=${Date.now()}`
     const response = await fetch(url);
     const data = await response.json();
