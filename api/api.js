@@ -8,10 +8,10 @@ import dotenv from 'dotenv';
 
 if (process.env.NODE_ENV === 'development') {
     console.log("dev")
-  }
+}
 if (process.env.NODE_ENV === 'production') {
     console.log("production")
-  }
+}
 dotenv.config();
 
 const app = express()
@@ -96,7 +96,7 @@ app.get('/api/tokenAddressHistory', async (req, res) => {
 })
 
 app.get('/test', async (req, res) => {
-    res.send(process.NODE_ENV)
+    res.send(process.env.NODE_ENV)
 })
 
 const upload = multer();
