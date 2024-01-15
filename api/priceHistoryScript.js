@@ -1,11 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import dotenv from 'dotenv';
 
-if (process.env.NODE_ENV === 'development') {
-  dotenv.config({ path: 'dev.env' });
-} else if (process.env.NODE_ENV === 'production') {
-  dotenv.config({ path: 'prod.env' });
-}
+dotenv.config();
 
 const prisma = new PrismaClient();
 const TODAY_UNIX = Math.round(new Date(Date.now()).getTime() / 1000);
