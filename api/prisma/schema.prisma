@@ -4,8 +4,8 @@
 // The primary key will be a composite key of coin name and date
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DEV_DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
