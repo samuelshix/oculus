@@ -12,7 +12,6 @@ import TokenInfoCard from './TokenInfoCard';
 import mockData from '../mockData/example.json'
 import { TokenInfo } from '../models/dataTypes';
 import CreateNFT from './CreateNFT';
-import { bs58 } from '@project-serum/anchor/dist/cjs/utils/bytes';
 
 export default function Portfolio() {
     const [tokenInfos, setTokenInfos] = useState<TokenInfo[]>([]);
@@ -41,9 +40,10 @@ export default function Portfolio() {
     };
 
     async function fetchTokenInfos() {
+        console.log(process.env.NODE_ENV);
         setIsLoading(true);
         // Fetch the user's token accounts
-        const tokenAccounts = await fetch(`http://localhost:3001/api/tokenAccounts?owner=${publicKey?.toString()}`).then((res) => res.json());
+        const tokenAccounts = await fetch(`/api/tokenAccounts?owner=${publicKey?.toString()}`).then((res) => res.json());
         // for $SOL balance
         tokenAccounts.tokens.push({
             tokenAccount: publicKey?.toString(),
@@ -56,7 +56,7 @@ export default function Portfolio() {
         // await connection.getParsedTokenAccountsByOwner(publicKey, {
         //     programId: new PublicKey('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'),
         // });
-        const allTokenInfo = await fetch('http://localhost:3001/api/tokens').then((res) => res.json());
+        const allTokenInfo = await fetch('/api/tokens').then((res) => res.json());
         // Fetch the token info for each token account
         var mintAddresses: string[] = [];
         var balanceInfos = await Promise.all(
@@ -81,7 +81,7 @@ export default function Portfolio() {
         )
         balanceInfos = balanceInfos.filter((info) => info !== null && info.amount > 0 && info.logoURI)
         setLoadingText("Retrieving token prices");
-        var tokenPrices = await fetch(`http://localhost:3001/api/prices?mintAddress=${mintAddresses.toString()}`).then((res) => res.json());
+        var tokenPrices = await fetch(`/api/prices?mintAddress=${mintAddresses.toString()}`).then((res) => res.json());
         setLoadingText("Calculating token account USD value...");
 
         let newTotalValue = totalValue;
