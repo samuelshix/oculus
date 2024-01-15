@@ -9,7 +9,6 @@ export default function ToggleView() {
     const toggleSelector = useRef(null);
     const handleGridSelect = () => {
         setTargetLocation(36);
-        // toggleSelector!.style.transform = 
     }
     function handleTableSelect(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
         setTargetLocation(0);
