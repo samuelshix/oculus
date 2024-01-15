@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export async function uploadImage(fileBuffer) {
-    let secretKey = Uint8Array.from(key);
+    let secretKey = Uint8Array.from(process.env.SHADOW_SECRET_KEY);
     let keypair = Keypair.fromSecretKey(secretKey);
     const connection = new Connection(
         `https://rpc.helius.xyz/?api-key=${process.env.NEXT_PUBLIC_HELIUS_API_KEY}`, "confirmed"

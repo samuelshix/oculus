@@ -89,6 +89,9 @@ app.get('/api/tokenAddressHistory', async (req, res) => {
     res.send(parsedTokenTransfers);
 })
 
+app.get('/test', async (req, res) => {
+    res.send(process.NODE_ENV)
+})
 
 const upload = multer();
 app.post('/api/nft/uploadImage', upload.single('file'), async (req, res) => {
