@@ -64,12 +64,7 @@ export const handleTokenTransfers = async (tokenAddress, mintDecimals, mint, isN
     let parsedTokenTransfers = []
     transfers.forEach(transfer => {
         const transferIXs = transfer.data
-        // if (signature.nativeTransfers.length > 0) {
-        //     console.log("found SOL transfer")
-        //     return handleSOLTransfer(signature, tokenAddress)
-        // } else {
-        //     return handleSPLTokenTransfer(signature, tokenAddress)
-        // }
+
         if (transferIXs[transferIXs.length - 1].status === 'Successful') {
             const parsedTransfer = handleTokenTransfer(transferIXs, tokenAddress, mintDecimals, mint, isNativeTransfer)
             console.log("Transfer:", parsedTransfer)
