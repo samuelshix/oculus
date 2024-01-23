@@ -40,7 +40,6 @@ export default function Portfolio() {
     };
 
     async function fetchTokenInfos() {
-        console.log(process.env.NODE_ENV);
         setIsLoading(true);
         // Fetch the user's token accounts
         const tokenAccounts = await fetch(`/api/tokenAccounts?owner=${publicKey?.toString()}`).then((res) => res.json());
@@ -51,31 +50,28 @@ export default function Portfolio() {
             amount: tokenAccounts.nativeBalance,
             decimals: 9
         })
-        console.log(tokenAccounts)
 
-        // await connection.getParsedTokenAccountsByOwner(publicKey, {
-        //     programId: new PublicKey('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'),
-        // });
         const allTokenInfo = await fetch('/api/tokens').then((res) => res.json());
         // Fetch the token info for each token account
         var mintAddresses: string[] = [];
         var balanceInfos = await Promise.all(
             tokenAccounts.tokens.map(async (accountInfo: { tokenAccount: string; mint: string; amount: number; decimals: number; }) => {
                 const mintAddress = accountInfo.mint;
-                // const mintInfo = await connection.getParsedAccountInfo(mintAddress);
                 const foundTokenInfo = allTokenInfo.find((tokenInfo: { address: string; }) => tokenInfo.address === mintAddress);
                 if (accountInfo.amount > 0 && typeof foundTokenInfo !== "undefined") {
                     mintAddresses = [...mintAddresses, mintAddress];
-                    return {
+                    const tokenCoinGeckoId = foundTokenInfo.extensions ? foundTokenInfo.extensions.coingeckoId : '';
+                    const enrichedTokenInfo = {
                         mintAddress: accountInfo.mint,
                         tokenAddress: accountInfo.tokenAccount,
                         symbol: foundTokenInfo?.symbol || 'Unknown',
-                        coinGeckoId: foundTokenInfo.extensions.coinGeckoId as string || '',
+                        coinGeckoId: tokenCoinGeckoId,
                         name: foundTokenInfo?.name || 'Unknown',
                         logoURI: foundTokenInfo?.logoURI || '',
                         amount: accountInfo.amount / Math.pow(10, accountInfo.decimals),
                         decimals: foundTokenInfo?.decimals,
                     };
+                    return enrichedTokenInfo;
                 } else return null;
             })
         )
@@ -112,7 +108,6 @@ export default function Portfolio() {
         // Calculate the difference between the totalValue and the value of the last element
         const lastValue = portfolioHistoricValue[portfolioHistoricValue.length - 1].value;
         const difference = totalValue - lastValue;
-        console.log('123', totalValue, lastValue)
         // Add the difference to the value of each element in combinedHistoricValue
         const updatedHistoricValue = portfolioHistoricValue.map((item) => ({
             ...item,
