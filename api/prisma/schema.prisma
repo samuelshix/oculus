@@ -1,26 +1,12 @@
-// This will create a new table for each new coin added to the Coin table
-// The table name will be the name of the coin in lowercase
-// The fields will be price and date
-// The primary key will be a composite key of coin name and date
-
+// dummy url due to prisma .env issue
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://url"
 }
 
 generator client {
   provider = "prisma-client-js"
 }
-
-// generator client {
-//   provider = "prisma-client-js"
-// }
-
-// datasource db {
-//   provider  = "postgresql"
-//   url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
-//   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
-// }
 
 model Coin {
   id             Int     @id @default(autoincrement())

@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({ datasources: { db: { url: process.env.DATABASE_URL } } });
 const TODAY_UNIX = Math.round(new Date(Date.now()).getTime() / 1000);
 const YESTERDAY = new Date(Date.now() - 86400000);
 const BIRDEYE_OPTIONS = { method: 'GET', headers: { 'X-API-KEY': process.env.BIRDEYE_API_KEY } };
