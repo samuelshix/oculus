@@ -17,9 +17,7 @@ async function getKey() {
 
 export async function uploadImage(fileBuffer) {
     let key = await getKey();
-    let secretKey = Uint8Array.from(key);
-    console.log(secretKey)
-    let keypair = Keypair.fromSecretKey(secretKey);
+    let keypair = Keypair.fromSecretKey(key);
     const connection = new Connection(
         `https://rpc.helius.xyz/?api-key=${process.env.NEXT_PUBLIC_HELIUS_API_KEY}`, "confirmed"
     );
