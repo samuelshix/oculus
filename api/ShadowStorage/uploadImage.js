@@ -6,20 +6,9 @@ import fs from 'fs';
 
 dotenv.config();
 
-async function getKey() {
-    let key;
-    if (process.env.NODE_ENV === 'production') {
-        key = process.env.SHADOW_SECRET_KEY
-    } else {
-        key = JSON.parse(fs.readFileSync('./ShadowStorage/N1VSg77Gwz2Raz48PYETHKRLYdxDVvcuespZK9wdK99.json', 'utf8'))
-    }
-    return key;
-}
-
 export async function uploadImage(fileBuffer) {
-    let key = await getKey();
-    console.log(key)
-    let keypair = Keypair.fromSecretKey(key);
+    let key = process.env.SHADOW_SECRET_KEY
+    let keypair = Keypair.fromSecretKey(Uint8Array.from(key));
     const connection = new Connection(
         `https://rpc.helius.xyz/?api-key=${process.env.NEXT_PUBLIC_HELIUS_API_KEY}`, "confirmed"
     );

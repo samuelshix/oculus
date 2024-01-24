@@ -145,7 +145,7 @@ export default function Portfolio() {
             <div style={{ overflow: "auto" }}>
             </div>
             <Center>
-                {publicKey && <CreateNFT htmlElement={exportRef.current!} />}
+                <CreateNFT htmlElement={exportRef.current!} />
             </Center>
             {/* {tokenInfos.length !== 0 && */}
             <>
