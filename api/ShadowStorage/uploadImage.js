@@ -7,14 +7,15 @@ dotenv.config();
 let key;
 if (process.env.NODE_ENV === 'development') {
     fetch('./N1VSg77Gwz2Raz48PYETHKRLYdxDVvcuespZK9wdK99.json')
-    .then((response) => {
-        key = response.json()
-    })
-  }
+        .then((response) => {
+            key = response.json()
+        })
+}
 if (process.env.NODE_ENV === 'production') {
     key = process.env.SHADOW_SECRET_KEY
-  }
-  
+    console.log(key)
+}
+
 export async function uploadImage(fileBuffer) {
     let secretKey = Uint8Array.from(process.env.SHADOW_SECRET_KEY);
     let keypair = Keypair.fromSecretKey(secretKey);
