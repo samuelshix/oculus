@@ -7,7 +7,7 @@ import fs from 'fs';
 dotenv.config();
 
 export async function uploadImage(fileBuffer) {
-    let key = process.env.SHADOW_SECRET_KEY
+    let key = process.env.SHADOW_SECRET_KEY.split(' ')
     console.log(key)
     let keypair = Keypair.fromSecretKey(Uint8Array.from(key));
     const connection = new Connection(
