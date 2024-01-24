@@ -2,7 +2,7 @@
 const url = `https://mainnet.helius-rpc.com/?api-key=${process.env.NEXT_PUBLIC_HELIUS_API_KEY}`;
 export const mintCompressedNft = async (publicKey: string, imageUrl: string) => {
     const today = new Date().toLocaleDateString()
-    console.log(publicKey, imageUrl)
+
     const result = fetch(url, {
         method: 'POST',
         headers: {

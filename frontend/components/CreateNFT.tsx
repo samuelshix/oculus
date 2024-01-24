@@ -66,7 +66,7 @@ const CreateNFT: FC<CreateNFTProps> = ({ htmlElement }) => {
                 imageUrl = res.data;
                 if (imageUrl) {
                     // Call your function with imageUrl as an argument
-                    const res = await mintCompressedNft(imageUrl, wallet?.publicKey?.toString()!)
+                    const res = await mintCompressedNft(wallet?.publicKey?.toString()!, imageUrl)
                     console.log(res)
                 } else {
                     alert("Error creating NFT")

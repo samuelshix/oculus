@@ -2,22 +2,17 @@ import anchor from "@project-serum/anchor";
 import { Connection, Keypair } from "@solana/web3.js";
 import { ShdwDrive } from "@shadow-drive/sdk";
 import dotenv from 'dotenv';
+import key from './N1VSg77Gwz2Raz48PYETHKRLYdxDVvcuespZK9wdK99.json' assert {type: "json"};
 dotenv.config();
 
-let key;
-if (process.env.NODE_ENV === 'development') {
-    fetch('./N1VSg77Gwz2Raz48PYETHKRLYdxDVvcuespZK9wdK99.json')
-        .then((response) => {
-            key = response.json()
-        })
-}
+
 if (process.env.NODE_ENV === 'production') {
     key = process.env.SHADOW_SECRET_KEY
-    console.log(key)
 }
 
 export async function uploadImage(fileBuffer) {
-    let secretKey = Uint8Array.from(process.env.SHADOW_SECRET_KEY);
+    console.log(key)
+    let secretKey = Uint8Array.from(key);
     let keypair = Keypair.fromSecretKey(secretKey);
     const connection = new Connection(
         `https://rpc.helius.xyz/?api-key=${process.env.NEXT_PUBLIC_HELIUS_API_KEY}`, "confirmed"
