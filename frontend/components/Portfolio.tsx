@@ -1,17 +1,16 @@
 
-import { FC, useEffect, useRef, useState } from 'react';
-// import { Connection, PublicKey, PublicKeyInitData } from '@solana/web3.js';
+import { useEffect, useRef, useState } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { FormEvent } from 'react';
 import { Button, Text, Box, Flex, Center } from '@chakra-ui/react';
 import { getPortfolioHistoricValue } from '../utils/fetchPortfolioHistoricalValue';
 import { LineChart } from './AreaChart';
 import LoadingAnimation from './LoadingAnimation';
-// import CreateNFT from './CreateNFT';
 import TokenInfoCard from './TokenInfoCard';
 import mockData from '../mockData/example.json'
 import { TokenInfo } from '../models/dataTypes';
 import CreateNFT from './CreateNFT';
+import { fetchPortfolioCurrentValue } from '../utils/fetchPortfolioCurrentValue';
 
 export default function Portfolio() {
     const [tokenInfos, setTokenInfos] = useState<TokenInfo[]>([]);
@@ -49,40 +48,19 @@ export default function Portfolio() {
             amount: tokenAccounts.nativeBalance,
             decimals: 9
         })
-
-        const allTokenInfo = await fetch('/api/tokens').then((res) => res.json());
-        // Fetch the token info for each token account
         var mintAddresses: string[] = [];
-        var balanceInfos = await Promise.all(
-            tokenAccounts.tokens.map(async (accountInfo: { tokenAccount: string; mint: string; amount: number; decimals: number; }) => {
-                const mintAddress = accountInfo.mint;
-                const foundTokenInfo = allTokenInfo.find((tokenInfo: { address: string; }) => tokenInfo.address === mintAddress);
-                if (accountInfo.amount > 0 && typeof foundTokenInfo !== "undefined") {
-                    mintAddresses = [...mintAddresses, mintAddress];
-                    const tokenCoinGeckoId = foundTokenInfo.extensions ? foundTokenInfo.extensions.coingeckoId : '';
-                    const enrichedTokenInfo = {
-                        mintAddress: accountInfo.mint,
-                        tokenAddress: accountInfo.tokenAccount,
-                        symbol: foundTokenInfo?.symbol || 'Unknown',
-                        coinGeckoId: tokenCoinGeckoId,
-                        name: foundTokenInfo?.name || 'Unknown',
-                        logoURI: foundTokenInfo?.logoURI || '',
-                        amount: accountInfo.amount / Math.pow(10, accountInfo.decimals),
-                        decimals: foundTokenInfo?.decimals,
-                    };
-                    return enrichedTokenInfo;
-                } else return null;
-            })
-        )
+
+        // Fetch the token info for each token account
+        var balanceInfos = await fetchPortfolioCurrentValue(tokenAccounts.tokens, mintAddresses);
         balanceInfos = balanceInfos.filter((info) => info !== null && info.amount > 0 && info.logoURI)
         setLoadingText("Retrieving token prices");
         var tokenPrices = await fetch(`/api/prices?mintAddress=${mintAddresses.toString()}`).then((res) => res.json());
-        setLoadingText("Calculating token account USD value...");
+        setLoadingText("Calculating token account USD value");
 
         let newTotalValue = totalValue;
         var tokenAddressValues: TokenInfo[] = balanceInfos.map((tokenInfo) => {
-            const price = tokenPrices.data[tokenInfo.mintAddress]?.price;
-            const value = parseFloat((price * tokenInfo.amount).toFixed(3));
+            const price = tokenPrices.data[tokenInfo!.mintAddress]?.price;
+            const value = parseFloat((price * tokenInfo!.amount).toFixed(3));
             newTotalValue += value;
             return {
                 ...tokenInfo,
@@ -91,8 +69,8 @@ export default function Portfolio() {
             }
         })
         newTotalValue = parseFloat(newTotalValue.toFixed(3));
-        tokenAddressValues = tokenAddressValues.filter((info) => info.value > 0)
-        tokenAddressValues = tokenAddressValues.sort((a, b) => b.value - a.value);
+        tokenAddressValues = tokenAddressValues.filter((info) => info.value! > 0)
+        tokenAddressValues = tokenAddressValues.sort((a, b) => b.value! - a.value!);
         setTokenInfos(tokenAddressValues);
         setTotalValue(newTotalValue);
 
@@ -121,6 +99,7 @@ export default function Portfolio() {
         setTotalValue(0);
         setTokenInfos([]);
     }, [publicKey])
+
     useEffect(() => {
         if (portfolioHistoricValue.length === 0) return;
         updateHistoricValue();
@@ -146,10 +125,8 @@ export default function Portfolio() {
             <Center>
                 <CreateNFT htmlElement={exportRef.current!} />
             </Center>
-            {/* {tokenInfos.length !== 0 && */}
             <>
                 <Text fontSize="4xl" ml="16" mt="20" mb="5" fontWeight="extrabold">Total Value: ${totalValue}</Text>
-                {/* <LineChart data={portfolioHistoricValue} /> */}
                 <Flex justifyContent="space-between" marginBottom={2}>
                     <Box>
                         <Flex mt="3">
@@ -160,7 +137,6 @@ export default function Portfolio() {
                 </Flex>
                 <Box bg="rgba(0,0,0,.05)" boxShadow="xl" p="3" borderRadius={20}>
                     {(tokenInfos.length !== 0 ? tokenInfos : mockData)
-                        // .filter((tokenInfo): tokenInfo is TokenInfo => 'coinGeckoId' in tokenInfo)
                         .map((tokenInfo, index) => (
                             <Box key={index}>
                                 <TokenInfoCard tokenInfo={tokenInfo} />
@@ -168,7 +144,6 @@ export default function Portfolio() {
                         ))}
                 </Box>
             </>
-            {/* } */}
         </div >
     );
 }

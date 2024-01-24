@@ -1,13 +1,20 @@
 export interface TokenInfo {
-    mintAddress: any;
-    tokenAddress: string;
-    name: string;
-    symbol: string;
-    amount: number;
-    logoURI: string;
-    price: number;
-    value: number;
+    mintAddress?: string;
+    tokenAddress?: string;
+    name?: string;
+    symbol?: string;
+    amount?: number;
+    logoURI?: string;
+    price?: number;
+    value?: number;
     coinGeckoId?: string;
+    decimals?: number;
+}
+
+export interface TokenAccount {
+    tokenAccount: string;
+    mint: string;
+    amount: number;
     decimals: number;
 }
 
