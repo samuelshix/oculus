@@ -27,7 +27,6 @@ const handleSOLTransfer = (transfers, tokenAddress, mintDecimals) => {
 const handleSPLTokenTransfer = (transfers, tokenAddress, mintDecimals) => {
     // this checks in case there are more than 1 total transfers with the token address
     const netTransfer = transfers.reduce((accumulator, transfer) => {
-        console.log(transfer.amount / 10 ** mintDecimals)
         if (transfer.destinationAssociation === tokenAddress) {
             return accumulator + (transfer.amount / 10 ** mintDecimals)
         } else if (transfer.sourceAssociation === tokenAddress) {
@@ -43,7 +42,6 @@ const handleTokenTransfer = (transferIXs, tokenAddress, mintDecimals, mint, isNa
     if (isNativeTransfer) {
         // solana fm api treats native transfers as a mint address of "" or mint of wrapped sol
         const transfers = transferIXs.filter(transfer => transfer.token === "" || transfer.token === mint);
-        console.log(transfer.amount / 10 ** mintDecimals)
         netTransfer = handleSOLTransfer(transfers, tokenAddress, mintDecimals, mint,)
     } else {
         const transfers = transferIXs.filter(transfer => transfer.token === mint);
@@ -51,7 +49,6 @@ const handleTokenTransfer = (transferIXs, tokenAddress, mintDecimals, mint, isNa
         netTransfer = handleSPLTokenTransfer(transfers, tokenAddress, mintDecimals, mint,)
     }
 
-    console.log("net transfer", netTransfer)
     return netTransfer
 }
 export const handleTokenTransfers = async (tokenAddress, mintDecimals, mint, isNativeTransfer) => {
@@ -66,10 +63,8 @@ export const handleTokenTransfers = async (tokenAddress, mintDecimals, mint, isN
 
         if (transferIXs[transferIXs.length - 1].status === 'Successful') {
             const parsedTransfer = handleTokenTransfer(transferIXs, tokenAddress, mintDecimals, mint, isNativeTransfer)
-            console.log("Transfer:", parsedTransfer)
             if (parsedTransfer !== undefined) parsedTokenTransfers.push(parsedTransfer)
         }
     })
-    console.log(parsedTokenTransfers)
     return parsedTokenTransfers
 }

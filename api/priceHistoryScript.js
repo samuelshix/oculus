@@ -89,7 +89,6 @@ export async function updateMissingPrices() {
   if (lastPriceDate.getDate() === YESTERDAY.getDate() &&
     lastPriceDate.getMonth() === YESTERDAY.getMonth() &&
     lastPriceDate.getFullYear() === YESTERDAY.getFullYear()) {
-    console.log("Prices already up to date")
     return;
   }
 
@@ -122,16 +121,13 @@ export async function updateMissingPrices() {
         })
       })
   })
-  console.log("Prices updated", res)
 }
 
 async function clearDB() {
-  console.log("Clearing database")
   await prisma.price.deleteMany({})
   await prisma.coin.deleteMany({})
   const tokenWithPrices = await prisma.price.findMany({
   })
-  console.log(tokenWithPrices)
 }
 
 async function main(args) {

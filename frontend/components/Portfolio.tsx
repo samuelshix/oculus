@@ -26,7 +26,6 @@ export default function Portfolio() {
 
     const handleSubmit = async (event: FormEvent<Element>) => {
         event.preventDefault();
-        console.log('hey')
         if (!publicKey) {
             alert('Please connect your wallet!');
             return;

@@ -3,44 +3,14 @@ import { FC } from "react";
 import html2canvas from "html2canvas";
 import { Button } from "@chakra-ui/react";
 import { mintCompressedNft } from "../utils/mintNFT";
-// import 
+import axios from "axios";
+
 type CreateNFTProps = {
     htmlElement: HTMLDivElement;
 };
 
-import axios from "axios";
-
-
 const CreateNFT: FC<CreateNFTProps> = ({ htmlElement }) => {
     const wallet = useWallet();
-
-    // async function uploadNFT(fileBuff: Buffer) {
-    //     console.log(SHADOW_DRIVE_BUCKET)
-    //     try {
-    //         const drive = await new ShdwDrive(connection, wallet).init();
-    //         const account = await drive.getStorageAccount(
-    //             new PublicKey(SHADOW_DRIVE_BUCKET as PublicKeyInitData)
-    //         )
-    //         console.log(account)
-    //         const fileToUpload: ShadowFile = {
-    //             name: "Porftolio.png",
-    //             file: fileBuff,
-    //         };
-    //         try {
-    //             if (wallet.publicKey) {
-    //                 const uploadFile = await drive.uploadFile(account.publicKey, fileToUpload);
-    //                 return uploadFile.finalized_locations[0];
-    //             }
-    //         } catch (err) {
-    //             console.log(err)
-    //             return `${err}`
-    //         }
-    //     } catch (err) {
-    //         console.log(err)
-    //         return `Error: ${err}`
-    //     }
-    // }
-
     async function create(ele: HTMLDivElement) {
         const canvas = await html2canvas(ele);
 
@@ -67,56 +37,12 @@ const CreateNFT: FC<CreateNFTProps> = ({ htmlElement }) => {
                 if (imageUrl) {
                     // Call your function with imageUrl as an argument
                     const res = await mintCompressedNft(wallet?.publicKey?.toString()!, imageUrl)
-                    console.log(res)
                 } else {
                     alert("Error creating NFT")
                 }
 
             })
         })
-
-
-        // const imageUrl = await axios.post(`/api/nft/uploadImage`, data).then(res => {
-        //     return res.data
-        // })
-        // var data = stringify({
-        //     workerName: 'ImageUploader',
-        //     data: buffer!.toString()
-        // });
-        // const imageUrl = await fetch(`/api/nft/uploadImage`, {
-        //     method: 'POST',
-        //     body: data,
-        //     headers: {
-        //         'Content-Type': 'application/x-www-form-urlencoded'
-        //     }
-        // }).then((res) => {
-        //     return res.json()
-        // });
-        // const data = new FormData();
-        // data.append('file', buffer!) 
-        // let imageUrl;
-
-        // try {
-        //     imageUrl = await fetch(`/api/nft/uploadImage/${data}`, {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'multipart/form-data'
-        //         },
-        //         body: data
-        //     }).then((res) => res.json());
-        // } catch (err) {
-        //     alert(err)
-        // }
-
-        // if (!imageUrl) return
-
-        try {
-            // const res = await mintCompressedNft(imageUrl as string, wallet?.publicKey?.toString() as string)
-            // console.log(res)
-            // console.log("hi")
-        } catch (err) {
-            alert(err)
-        }
     }
 
 

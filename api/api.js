@@ -20,7 +20,6 @@ app.use(express.json())
 const apiKey = process.env.NEXT_PUBLIC_HELIUS_API_KEY;
 
 const getAssetsByOwner = async (walletAddress) => {
-    console.log(apiKey)
     const url = `https://api.helius.xyz/v0/addresses/${walletAddress}/balances?api-key=${apiKey}`;
     const response = await fetch(url);
     const data = await response.json();
@@ -63,7 +62,7 @@ app.get('/api/priceHistory', async (req, res) => {
         console.log('Token found: ', token.name)
         res.send({ coinName: coinName, prices: prices })
     } else {
-        console.log("creating coin name", coinName)
+        console.log("Creating coin", coinName)
         createToken(
             req.query.tokenIdentifier,
             req.query.newToken,
@@ -71,7 +70,6 @@ app.get('/api/priceHistory', async (req, res) => {
             coinName)
             .then(token => {
                 getTokenPriceHistory(coinName).then(prices => {
-                    console.log('Token created: ', token.name)
                     res.send({ coinName: coinName, prices: prices })
                 })
             })
@@ -100,5 +98,4 @@ app.post('/api/nft/uploadImage', upload.single('file'), async (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
 })

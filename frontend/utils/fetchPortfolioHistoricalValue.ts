@@ -4,15 +4,11 @@ import { DateValue, TokenHistoricValue, TokenInfo } from "../models/dataTypes";
 
 export const fetchPortfolioHistoricalValue = async (tokenInfos: TokenInfo[]) => {
     const allTokenHistories = [];
-    console.log(tokenInfos)
     for (let i = 0; i < tokenInfos.length; i++) {
         const tokenInfo = tokenInfos[i];
         try {
             var tokenAddressHistory: Array<any> = await getTokenAddressHistory(tokenInfo);
-            console.log(tokenInfo.name, tokenAddressHistory);
             var prices = await getTokenPriceHistory(tokenInfo, tokenAddressHistory);
-            console.log(tokenInfo.name, prices)
-
             var balance = 0
             const accountValueHistory = prices.map((item: any, index: number) => {
                 const tokenTransfers = tokenAddressHistory.filter((transfer: any) => isSameDay(transfer.date, item.date));
@@ -29,7 +25,6 @@ export const fetchPortfolioHistoricalValue = async (tokenInfos: TokenInfo[]) => 
                     value: item.price * balance
                 };
             })
-            console.log("accountValueHistory: ", accountValueHistory)
 
             allTokenHistories.push(
                 {
@@ -65,7 +60,6 @@ export const getTokenPriceHistory = async (tokenInfo: TokenInfo, tokenAddressHis
     const firstDate = tokenAddressHistory[0].date;
     const tokenIdentifier = tokenInfo.coinGeckoId ? tokenInfo.coinGeckoId : tokenInfo.symbol;
     const url = `/api/priceHistory?tokenIdentifier=${tokenIdentifier}&newToken=${!tokenInfo.coinGeckoId}&mint=${tokenInfo.mintAddress}&name=${tokenInfo.name}`
-    console.log(url)
     var { prices }: { "prices": any[] } = await fetch(url)
         .then((res) => res.json());
 
@@ -73,7 +67,6 @@ export const getTokenPriceHistory = async (tokenInfo: TokenInfo, tokenAddressHis
         price.date = new Date(price.date);
         return price
     })
-    console.log(tokenInfo.name, prices)
     prices = prices.filter(price => isAfter(price.date, firstDate) || isSameDay(price.date, firstDate));
 
     return prices

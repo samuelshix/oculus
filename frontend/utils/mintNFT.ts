@@ -28,6 +28,5 @@ export const mintCompressedNft = async (publicKey: string, imageUrl: string) => 
             ]
         }),
     }).then((res) => res.json());
-    console.log(result)
     return result;
 };

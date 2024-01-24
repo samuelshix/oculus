@@ -13,11 +13,8 @@ async function main() {
   const drive = await new ShdwDrive(connection, wallet).init();
   const accts = await drive.getStorageAccounts();
   let acctPubKey = new anchor.web3.PublicKey(accts[0].publicKey);
-  console.log(acctPubKey)
   // const addStorageRes = await drive.addStorage(acctPubKey, "10MB");
   const topUpRes = await drive.topUp(acctPubKey, 9000000000);
   console.log(topUpRes)
-  // const test = await drive.getStorageAccount()
-
 }
 main();

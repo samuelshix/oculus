@@ -2,13 +2,11 @@ import anchor from "@project-serum/anchor";
 import { Connection, Keypair } from "@solana/web3.js";
 import { ShdwDrive } from "@shadow-drive/sdk";
 import dotenv from 'dotenv';
-import fs from 'fs';
 
 dotenv.config();
 
 export async function uploadImage(fileBuffer) {
     let key = process.env.SHADOW_SECRET_KEY.split(' ')
-    console.log(key)
     let keypair = Keypair.fromSecretKey(Uint8Array.from(key));
     const connection = new Connection(
         `https://rpc.helius.xyz/?api-key=${process.env.NEXT_PUBLIC_HELIUS_API_KEY}`, "confirmed"
@@ -22,6 +20,5 @@ export async function uploadImage(fileBuffer) {
         file: fileBuffer,
     };
     const uploadFile = await drive.uploadFile(acctPubKey, fileToUpload);
-    console.log(uploadFile);
     return uploadFile.finalized_locations[0];
 }
