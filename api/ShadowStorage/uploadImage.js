@@ -3,6 +3,7 @@ import { Connection, Keypair } from "@solana/web3.js";
 import { ShdwDrive } from "@shadow-drive/sdk";
 import dotenv from 'dotenv';
 import fs from 'fs';
+
 dotenv.config();
 
 async function getKey() {
@@ -17,6 +18,7 @@ async function getKey() {
 
 export async function uploadImage(fileBuffer) {
     let key = await getKey();
+    console.log(key)
     let keypair = Keypair.fromSecretKey(key);
     const connection = new Connection(
         `https://rpc.helius.xyz/?api-key=${process.env.NEXT_PUBLIC_HELIUS_API_KEY}`, "confirmed"
