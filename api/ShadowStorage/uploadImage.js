@@ -2,16 +2,21 @@ import anchor from "@project-serum/anchor";
 import { Connection, Keypair } from "@solana/web3.js";
 import { ShdwDrive } from "@shadow-drive/sdk";
 import dotenv from 'dotenv';
-import key from './N1VSg77Gwz2Raz48PYETHKRLYdxDVvcuespZK9wdK99.json' assert {type: "json"};
+import fs from 'fs';
 dotenv.config();
 
-
-if (process.env.NODE_ENV === 'production') {
-    key = process.env.SHADOW_SECRET_KEY
+async function getKey() {
+    let key;
+    if (process.env.NODE_ENV === 'production') {
+        key = process.env.SHADOW_SECRET_KEY
+    } else {
+        key = JSON.parse(fs.readFileSync('./ShadowStorage/N1VSg77Gwz2Raz48PYETHKRLYdxDVvcuespZK9wdK99.json', 'utf8'))
+    }
+    return key;
 }
 
 export async function uploadImage(fileBuffer) {
-    console.log(key)
+    let key = await getKey();
     let secretKey = Uint8Array.from(key);
     let keypair = Keypair.fromSecretKey(secretKey);
     const connection = new Connection(
