@@ -4,9 +4,9 @@ Users can then mint an NFT of this graph so they can easily view their recent pe
 
 ## Tech Stack
 ### Client
-NextJS
-Helius, Birdeye, Coingecko APIs
+- NextJS
+- Helius, Birdeye, Coingecko APIs
 
 ### Backend
-Shadow Storage SDK - For image hosting
-Prisma - storing price data to improve efficiency
+- Shadow Storage SDK - For image hosting
+- Prisma - storing price data to improve efficiency
